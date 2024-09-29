@@ -14,6 +14,7 @@ const Navbar = () => {
               Home
             </Link>
           </li>
+
           <li>
             <Link to="/inspection" className="hover:text-gray-300">
               Inspection Order
@@ -34,6 +35,16 @@ const Navbar = () => {
               Contact Us
             </Link>
           </li>
+          <l1>
+            <Link to="/about" className="hover:text-gray-400">
+              About
+            </Link>
+          </l1>
+          <l1>
+            <Link to="/services" className="hover:text-gray-400">
+              Services
+            </Link>
+          </l1>
         </ul>
       </div>
     </nav>
