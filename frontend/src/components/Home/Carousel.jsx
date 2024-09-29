@@ -1,7 +1,14 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import carImage from "../../assets/HomeImages/Car.jpg"; // Adjust the path based on your folder structure
 
 const Carousel = () => {
+  const navigate = useNavigate(); // Initialize useNavigate
+
+  const handleButtonClick = () => {
+    navigate("/inspection"); // Navigate to the /inspection route
+  };
+
   return (
     <div className="relative w-full h-[600px] bg-gray-200">
       {/* Image for the carousel */}
@@ -20,7 +27,10 @@ const Carousel = () => {
           Get your pre-purchase car inspection today with AutoInspectors. We’re
           here to ensure you don’t drive off with trouble.
         </p>
-        <button className="mt-6 px-6 py-3 bg-yellow-500 text-black font-semibold rounded hover:bg-yellow-600">
+        <button
+          onClick={handleButtonClick}
+          className="mt-6 px-6 py-3 bg-yellow-500 text-black font-semibold rounded hover:bg-yellow-600"
+        >
           ORDER INSPECTION
         </button>
 
