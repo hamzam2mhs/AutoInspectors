@@ -31,7 +31,7 @@ const Carousel = () => {
         </p>
         <button
           onClick={handleButtonClick}
-          className="px-8 py-4 bg-yellow-500 text-black font-semibold rounded-full shadow-lg hover:bg-yellow-600 transition transform hover:scale-105 duration-300 ease-out"
+          className="px-8 py-4 bg-gradient-to-r from-yellow-400 to-yellow-600 text-black font-semibold rounded-lg shadow-lg hover:from-yellow-500 hover:to-yellow-700 transition transform hover:scale-105 duration-300 ease-out"
         >
           ORDER INSPECTION
         </button>
