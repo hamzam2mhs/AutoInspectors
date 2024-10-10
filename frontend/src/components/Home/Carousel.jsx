@@ -23,7 +23,7 @@ const Carousel = () => {
 
       {/* Lighter Gradient Overlay */}
       <div className="absolute inset-0 bg-gradient-to-b from-black/40 to-black/80 flex flex-col justify-center items-center text-center text-white px-4">
-        <h1 className="text-4xl md:text-5xl font-extrabold drop-shadow-lg mb-4 transition-opacity duration-1000 ease-out">
+        <h1 className="text-4xl md:text-6xl font-extrabold drop-shadow-lg mb-4 transition-opacity duration-1000 ease-out">
           Don’t Buy Trouble – Get It Inspected First!
         </h1>
         <p className="text-lg md:text-xl mb-8 max-w-2xl leading-relaxed transition-opacity duration-1000 ease-out">
