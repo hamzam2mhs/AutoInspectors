@@ -71,6 +71,9 @@ const VehicleForm = () => {
     const input = e.target.value;
     setSelectedMake(input);
 
+    // Reset the selected model when the make changes
+    setSelectedModel("");
+
     // Filter makes based on input
     const filtered = makes.filter((make) =>
         make.make_display.toLowerCase().startsWith(input.toLowerCase())
@@ -78,6 +81,8 @@ const VehicleForm = () => {
     setFilteredMakes(filtered);
     setIsMakeDropdownOpen(true);  // Open the dropdown when typing
   };
+
+
 
   const handleModelInputChange = (e) => {
     const input = e.target.value;
@@ -90,6 +95,7 @@ const VehicleForm = () => {
     setFilteredModels(filtered);
     setIsModelDropdownOpen(true);  // Open the dropdown when typing
   };
+
 
 
   const handleSubmit = (e) => {
@@ -163,20 +169,30 @@ const VehicleForm = () => {
 
 
                 {/* Custom Dropdown */}
-                {isMakeDropdownOpen && filteredMakes.length > 0 && (
+                {isMakeDropdownOpen && (
                     <ul className="absolute z-50 w-full mt-1 bg-white border border-gray-300 rounded-md shadow-lg max-h-60 overflow-auto">
-                      {filteredMakes.map((make) => (
-                          <li
-                              key={make.make_id}
-                              onClick={() => {
-                                setSelectedMake(make.make_display);  // Update selected make
-                                setIsMakeDropdownOpen(false);  // Close dropdown after selecting
-                              }}
-                              className="cursor-pointer hover:bg-yellow-500 hover:text-white px-4 py-2"
-                          >
-                            {make.make_display}
-                          </li>
-                      ))}
+                      <li
+                          onClick={() => setSelectedMake('')}
+                          className="cursor-pointer hover:bg-yellow-500 hover:text-white px-4 py-2"
+                      >
+                        (Select a Make)
+                      </li>
+                      {filteredMakes.length > 0 ? (
+                          filteredMakes.map((make) => (
+                              <li
+                                  key={make.make_id}
+                                  onClick={() => {
+                                    setSelectedMake(make.make_display);
+                                    setIsMakeDropdownOpen(false);
+                                  }}
+                                  className="cursor-pointer hover:bg-yellow-500 hover:text-white px-4 py-2"
+                              >
+                                {make.make_display}
+                              </li>
+                          ))
+                      ) : (
+                          <li className="px-4 py-2">No matches found</li>
+                      )}
                     </ul>
                 )}
               </div>
@@ -198,20 +214,30 @@ const VehicleForm = () => {
                 />
 
                 {/* Custom Dropdown */}
-                {isModelDropdownOpen && filteredModels.length > 0 && (
+                {isModelDropdownOpen && (
                     <ul className="absolute z-50 w-full mt-1 bg-white border border-gray-300 rounded-md shadow-lg max-h-60 overflow-auto">
-                      {filteredModels.map((model) => (
-                          <li
-                              key={model.model_id}
-                              onClick={() => {
-                                setSelectedModel(model.model_name);  // Update selected model
-                                setIsModelDropdownOpen(false);  // Close dropdown
-                              }}
-                              className="cursor-pointer hover:bg-yellow-500 hover:text-white px-4 py-2"
-                          >
-                            {model.model_name}
-                          </li>
-                      ))}
+                      <li
+                          onClick={() => setSelectedModel('')}
+                          className="cursor-pointer hover:bg-yellow-500 hover:text-white px-4 py-2"
+                      >
+                        (Select a Model)
+                      </li>
+                      {filteredModels.length > 0 ? (
+                          filteredModels.map((model) => (
+                              <li
+                                  key={model.model_id}
+                                  onClick={() => {
+                                    setSelectedModel(model.model_name);
+                                    setIsModelDropdownOpen(false);
+                                  }}
+                                  className="cursor-pointer hover:bg-yellow-500 hover:text-white px-4 py-2"
+                              >
+                                {model.model_name}
+                              </li>
+                          ))
+                      ) : (
+                          <li className="px-4 py-2">No matches found</li>
+                      )}
                     </ul>
                 )}
               </div>
