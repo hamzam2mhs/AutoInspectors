@@ -14,6 +14,8 @@ const VehicleForm = () => {
   const [selectedMake, setSelectedMake] = useState("");
   const [selectedModel, setSelectedModel] = useState("");
   const [vehicleYear, setVehicleYear] = useState("");
+  const [filteredYears, setFilteredYears] = useState([]);
+  const [isYearDropdownOpen, setIsYearDropdownOpen] = useState(false);
   const [sellerName, setSellerName] = useState("");
   const [contactNumber, setContactNumber] = useState("");
   const [address, setAddress] = useState("");
@@ -41,6 +43,7 @@ const VehicleForm = () => {
     }
   };
 
+  // Fetch vehicle makes
   useEffect(() => {
     const fetchMakes = () => {
       jsonp(
@@ -60,6 +63,7 @@ const VehicleForm = () => {
     fetchMakes();
   }, []);
 
+  // Fetch vehicle models based on selected make
   useEffect(() => {
     if (selectedMake) {
       const fetchModels = () => {
@@ -83,6 +87,16 @@ const VehicleForm = () => {
       setFilteredModels([]);
     }
   }, [selectedMake]);
+
+  // Generate the list of years from 2005 to the current year
+  useEffect(() => {
+    const currentYear = new Date().getFullYear();
+    const years = [];
+    for (let year = 2005; year <= currentYear; year++) {
+      years.push(year.toString());
+    }
+    setFilteredYears(years);
+  }, []);
 
   const handleMakeInputChange = (e) => {
     const input = e.target.value;
@@ -111,6 +125,29 @@ const VehicleForm = () => {
     );
     setFilteredModels(filtered);
     setIsModelDropdownOpen(true);
+  };
+
+  // Handle the vehicle year input change
+  const handleVehicleYearChange = (e) => {
+    const input = e.target.value;
+    setVehicleYear(input);
+
+    const filtered = filteredYears.filter((year) =>
+        year.startsWith(input)
+    );
+    setFilteredYears(filtered);
+
+    // Show dropdown if there are filtered results
+    if (filtered.length > 0) {
+      setIsYearDropdownOpen(true);
+    } else {
+      setIsYearDropdownOpen(false);
+    }
+  };
+
+  const handleYearSelect = (year) => {
+    setVehicleYear(year);
+    setIsYearDropdownOpen(false); // Close the dropdown after selection
   };
 
   const handleSubmit = (e) => {
@@ -150,19 +187,32 @@ const VehicleForm = () => {
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               {/* Vehicle Year */}
-              <div>
+              <div className="relative">
                 <label htmlFor="year" className="block text-lg font-medium text-gray-700">
                   Vehicle Year
                 </label>
                 <input
-                    type="number"
+                    type="text"
                     id="year"
                     className="block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-yellow-500 focus:border-yellow-500"
                     value={vehicleYear}
-                    onChange={(e) => setVehicleYear(e.target.value)}
+                    onChange={handleVehicleYearChange}
                     placeholder="e.g. 2006"
                     required
                 />
+                {isYearDropdownOpen && (
+                    <ul className="absolute z-50 w-full mt-1 bg-white border border-gray-300 rounded-md shadow-lg max-h-60 overflow-auto">
+                      {filteredYears.map((year) => (
+                          <li
+                              key={year}
+                              onClick={() => handleYearSelect(year)}
+                              className="cursor-pointer hover:bg-yellow-500 hover:text-white px-4 py-2"
+                          >
+                            {year}
+                          </li>
+                      ))}
+                    </ul>
+                )}
               </div>
 
               {/* Vehicle Make */}
@@ -357,3 +407,4 @@ const VehicleForm = () => {
 };
 
 export default VehicleForm;
+
