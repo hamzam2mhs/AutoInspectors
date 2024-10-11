@@ -21,7 +21,7 @@ const VehicleForm = () => {
   const [addons, setAddons] = useState({ carfax: false, verbalReport: false });
 
   const { isLoaded } = useJsApiLoader({
-    googleMapsApiKey: "AIzaSyBc6YlZDMSCgKB7uNuGQAp2fkntZjwra34",  // Use your API key securely
+    googleMapsApiKey: import.meta.env.REACT_APP_GOOGLE_MAPS_API_KEY,  // Use your API key securely
     libraries: ['places'],
   });
 
