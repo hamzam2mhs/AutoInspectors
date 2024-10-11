@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import jsonp from 'jsonp';  // Import jsonp
-import backgroundImage from "../../assets/FormImages/inspectionBackground.jpg"; // Adjust the path based on your folder structure
+import jsonp from 'jsonp';
+import backgroundImage from "../../assets/FormImages/inspectionBackground.jpg";
 
 const VehicleForm = () => {
   const [makes, setMakes] = useState([]);
@@ -12,6 +12,10 @@ const VehicleForm = () => {
   const [sellerName, setSellerName] = useState("");
   const [contactNumber, setContactNumber] = useState("");
   const [address, setAddress] = useState("");
+  const [addons, setAddons] = useState({
+    carfax: false,
+    verbalReport: false,
+  });
 
   const navigate = useNavigate();
 
@@ -25,7 +29,6 @@ const VehicleForm = () => {
             if (err) {
               console.error("Error fetching vehicle makes", err);
             } else {
-              console.log("Makes Data:", data.Makes);
               setMakes(data.Makes);
             }
           }
@@ -46,7 +49,6 @@ const VehicleForm = () => {
               if (err) {
                 console.error("Error fetching vehicle models", err);
               } else {
-                console.log("Models Data:", data.Models);
                 setModels(data.Models);
               }
             }
@@ -68,10 +70,16 @@ const VehicleForm = () => {
       sellerName,
       contactNumber,
       address,
+      addons,
     };
 
     console.log("Form Data Submitted: ", formData);
     navigate("/inspection");
+  };
+
+  const handleAddonsChange = (e) => {
+    const { name, checked } = e.target;
+    setAddons({ ...addons, [name]: checked });
   };
 
   return (
@@ -87,7 +95,7 @@ const VehicleForm = () => {
         <div className="absolute inset-0 flex justify-center items-center z-10 bg-black bg-opacity-50">
           {/* Vehicle Form */}
           <form className="bg-white bg-opacity-90 p-8 max-w-3xl w-full shadow-xl rounded-lg space-y-6" onSubmit={handleSubmit}>
-            <h1 className="text-2xl font-bold text-center text-gray-800 mb-4">Submit Your Vehicle Inspection Request</h1>
+            <h1 className="text-2xl font-bold text-center text-gray-800 mb-4">Order Vehicle Inspection</h1>
 
             {/* Row for Vehicle Year, Make, and Model */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -198,9 +206,7 @@ const VehicleForm = () => {
 
             {/* Address */}
             <div className="grid grid-cols-1 gap-4">
-              <label htmlFor="address" className="block text-lg font-medium text-gray-700">
-                Address of the Vehicle
-              </label>
+              <label htmlFor="address" className="block text-lg font-medium text-gray-700">Address of the Vehicle</label>
               <textarea
                   id="address"
                   className="block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-yellow-500 focus:border-yellow-500"
@@ -209,6 +215,38 @@ const VehicleForm = () => {
                   placeholder="Enter the address of the vehicle"
                   required
               />
+            </div>
+
+            {/* Add-ons */}
+            <div className="border p-4 bg-gray-100 rounded-md">
+              <h3 className="text-lg font-bold text-gray-700 mb-2">Inspection Add-Ons</h3>
+              <p className="text-gray-600 mb-4">You can add any of the following add-ons to your order!</p>
+
+              <div className="space-y-2">
+                <div className="flex items-center">
+                  <input
+                      type="checkbox"
+                      name="carfax"
+                      id="carfax"
+                      className="h-4 w-4 text-yellow-500 border-gray-300 rounded focus:ring-yellow-500"
+                      checked={addons.carfax}
+                      onChange={handleAddonsChange}
+                  />
+                  <label htmlFor="carfax" className="ml-2 text-gray-700">$34.99 - CARFAX Vehicle History Report</label>
+                </div>
+
+                <div className="flex items-center">
+                  <input
+                      type="checkbox"
+                      name="verbalReport"
+                      id="verbalReport"
+                      className="h-4 w-4 text-yellow-500 border-gray-300 rounded focus:ring-yellow-500"
+                      checked={addons.verbalReport}
+                      onChange={handleAddonsChange}
+                  />
+                  <label htmlFor="verbalReport" className="ml-2 text-gray-700">$49.99 - Verbal Vehicle Assessment Report</label>
+                </div>
+              </div>
             </div>
 
             {/* Submit Button */}
@@ -220,10 +258,11 @@ const VehicleForm = () => {
                 Submit Inspection Request
               </button>
             </div>
-          </form>
-        </div>
-      </div>
-  );
+          </form> {/* Make sure this form closing tag is after the submit button */}
+
+</div>
+</div>
+);
 };
 
 export default VehicleForm;
