@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import jsonp from 'jsonp';  // <-- Add this line to import jsonp
+import jsonp from 'jsonp';  // Import jsonp
 import backgroundImage from "../../assets/FormImages/inspectionBackground.jpg"; // Adjust the path based on your folder structure
 
 const VehicleForm = () => {
@@ -8,6 +8,10 @@ const VehicleForm = () => {
   const [models, setModels] = useState([]);
   const [selectedMake, setSelectedMake] = useState("");
   const [selectedModel, setSelectedModel] = useState("");
+  const [vehicleYear, setVehicleYear] = useState("");
+  const [sellerName, setSellerName] = useState("");
+  const [contactNumber, setContactNumber] = useState("");
+  const [address, setAddress] = useState("");
 
   const navigate = useNavigate();
 
@@ -55,83 +59,163 @@ const VehicleForm = () => {
     }
   }, [selectedMake]);
 
-  const handleButtonClick = () => {
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const formData = {
+      vehicleYear,
+      selectedMake,
+      selectedModel,
+      sellerName,
+      contactNumber,
+      address,
+    };
+
+    console.log("Form Data Submitted: ", formData);
     navigate("/inspection");
   };
 
   return (
-      <div className="relative w-full h-[600px] bg-gray-200">
+      <div className="relative w-full h-screen bg-gray-200">
         {/* Background Image */}
         <img
             src={backgroundImage}
             alt="Background Image"
-            className="w-full h-full object-cover"
+            className="absolute inset-0 w-full h-full object-cover z-0"
         />
 
         {/* Overlay Content */}
-        <div className="absolute inset-0 flex flex-col justify-center items-center bg-black bg-opacity-50 text-center text-white px-4">
-          <h1 className="text-3xl font-bold">Submit Your Vehicle Inspection Request</h1>
-
+        <div className="absolute inset-0 flex justify-center items-center z-10 bg-black bg-opacity-50">
           {/* Vehicle Form */}
-          <form className="mt-6 max-w-xl mx-auto p-6 bg-white bg-opacity-80 shadow-lg rounded-lg">
-            <div className="mb-6">
-              <label htmlFor="make" className="block text-lg font-medium text-gray-700 mb-2">
-                Vehicle Make
-              </label>
-              <input
-                  list="makes"
-                  id="make"
-                  className="block w-full py-3 px-4 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-lg"
-                  value={selectedMake}
-                  onChange={(e) => {
-                    setSelectedMake(e.target.value);
-                    setSelectedModel(""); // Reset model when make changes
-                  }}
-                  placeholder="Type or select a make"
-                  required
-              />
-              <datalist id="makes">
-                {makes.length > 0 ? (
-                    makes.map((make) => (
-                        <option key={make.make_id} value={make.make_display} />
-                    ))
-                ) : (
-                    <option disabled>Loading makes...</option>
-                )}
-              </datalist>
+          <form className="bg-white bg-opacity-90 p-8 max-w-3xl w-full shadow-xl rounded-lg space-y-6" onSubmit={handleSubmit}>
+            <h1 className="text-2xl font-bold text-center text-gray-800 mb-4">Submit Your Vehicle Inspection Request</h1>
+
+            {/* Row for Vehicle Year, Make, and Model */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              {/* Vehicle Year */}
+              <div>
+                <label htmlFor="year" className="block text-lg font-medium text-gray-700">
+                  Vehicle Year
+                </label>
+                <input
+                    type="number"
+                    id="year"
+                    className="block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-yellow-500 focus:border-yellow-500"
+                    value={vehicleYear}
+                    onChange={(e) => setVehicleYear(e.target.value)}
+                    placeholder="e.g. 2006"
+                    required
+                />
+              </div>
+
+              {/* Vehicle Make */}
+              <div>
+                <label htmlFor="make" className="block text-lg font-medium text-gray-700">
+                  Vehicle Make
+                </label>
+                <input
+                    list="makes"
+                    id="make"
+                    className="block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-yellow-500 focus:border-yellow-500"
+                    value={selectedMake}
+                    onChange={(e) => {
+                      setSelectedMake(e.target.value);
+                      setSelectedModel(""); // Reset model when make changes
+                    }}
+                    placeholder="e.g. Ford"
+                    required
+                />
+                <datalist id="makes">
+                  {makes.length > 0 ? (
+                      makes.map((make) => (
+                          <option key={make.make_id} value={make.make_display} />
+                      ))
+                  ) : (
+                      <option disabled>Loading makes...</option>
+                  )}
+                </datalist>
+              </div>
+
+              {/* Vehicle Model */}
+              <div>
+                <label htmlFor="model" className="block text-lg font-medium text-gray-700">
+                  Vehicle Model
+                </label>
+                <input
+                    list="models"
+                    id="model"
+                    className="block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-yellow-500 focus:border-yellow-500"
+                    value={selectedModel}
+                    onChange={(e) => setSelectedModel(e.target.value)}
+                    placeholder="e.g. Fusion"
+                    required
+                    disabled={!selectedMake} // Disable until make is selected
+                />
+                <datalist id="models">
+                  {models.length > 0 ? (
+                      models.map((model) => (
+                          <option key={model.model_id} value={model.model_name} />
+                      ))
+                  ) : selectedMake ? (
+                      <option disabled>Loading models...</option>
+                  ) : (
+                      <option disabled>Select a make first</option>
+                  )}
+                </datalist>
+              </div>
             </div>
 
-            <div className="mb-6">
-              <label htmlFor="model" className="block text-lg font-medium text-gray-700 mb-2">
-                Vehicle Model
+            {/* Seller's Name */}
+            <div className="grid grid-cols-1 gap-4">
+              <label htmlFor="seller-name" className="block text-lg font-medium text-gray-700">
+                Seller's Name
               </label>
               <input
-                  list="models"
-                  id="model"
-                  className="block w-full py-3 px-4 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-lg"
-                  value={selectedModel}
-                  onChange={(e) => setSelectedModel(e.target.value)}
-                  placeholder="Type or select a model"
+                  type="text"
+                  id="seller-name"
+                  className="block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-yellow-500 focus:border-yellow-500"
+                  value={sellerName}
+                  onChange={(e) => setSellerName(e.target.value)}
+                  placeholder="Enter the seller's name"
                   required
-                  disabled={!selectedMake} // Disable until make is selected
               />
-              <datalist id="models">
-                {models.length > 0 ? (
-                    models.map((model) => (
-                        <option key={model.model_id} value={model.model_name} />
-                    ))
-                ) : selectedMake ? (
-                    <option disabled>Loading models...</option>
-                ) : (
-                    <option disabled>Select a make first</option>
-                )}
-              </datalist>
             </div>
 
+            {/* Contact Number */}
+            <div className="grid grid-cols-1 gap-4">
+              <label htmlFor="contact-number" className="block text-lg font-medium text-gray-700">
+                Contact Number
+              </label>
+              <input
+                  type="tel"
+                  id="contact-number"
+                  className="block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-yellow-500 focus:border-yellow-500"
+                  value={contactNumber}
+                  onChange={(e) => setContactNumber(e.target.value)}
+                  placeholder="Enter the contact number"
+                  required
+              />
+            </div>
+
+            {/* Address */}
+            <div className="grid grid-cols-1 gap-4">
+              <label htmlFor="address" className="block text-lg font-medium text-gray-700">
+                Address of the Vehicle
+              </label>
+              <textarea
+                  id="address"
+                  className="block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-yellow-500 focus:border-yellow-500"
+                  value={address}
+                  onChange={(e) => setAddress(e.target.value)}
+                  placeholder="Enter the address of the vehicle"
+                  required
+              />
+            </div>
+
+            {/* Submit Button */}
             <div className="text-center">
               <button
                   type="submit"
-                  className="w-full bg-yellow-500 text-black py-3 px-5 rounded-md hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                  className="w-full bg-yellow-500 text-black py-3 px-5 rounded-md hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500"
               >
                 Submit Inspection Request
               </button>
