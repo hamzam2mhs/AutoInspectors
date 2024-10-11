@@ -303,10 +303,12 @@ const VehicleForm = () => {
                       type="checkbox"
                       name="carfax"
                       id="carfax"
-                      className="h-4 w-4 text-yellow-500 border-gray-300 rounded focus:ring-yellow-500"
+                      className="h-4 w-4 text-yellow-500 border-gray-300 rounded focus:ring-yellow-500 checked:bg-yellow-500 checked:border-yellow-500"
                       checked={addons.carfax}
                       onChange={handleAddonsChange}
                   />
+
+
                   <label htmlFor="carfax" className="ml-2 text-gray-700">
                     $25.99 - CARFAX Vehicle History Report
                     <span className="text-red-500"> (Limited time discount)</span>
@@ -318,7 +320,7 @@ const VehicleForm = () => {
                       type="checkbox"
                       name="verbalReport"
                       id="verbalReport"
-                      className="h-4 w-4 text-yellow-500 border-gray-300 rounded focus:ring-yellow-500"
+                      className="h-4 w-4 text-yellow-500 border-gray-300 rounded focus:ring-yellow-500 checked:bg-yellow-500 checked:border-yellow-500"
                       checked={addons.verbalReport}
                       onChange={handleAddonsChange}
                   />
