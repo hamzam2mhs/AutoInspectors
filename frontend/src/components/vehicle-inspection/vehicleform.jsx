@@ -61,7 +61,8 @@ const VehicleForm = () => {
           <label htmlFor="make" className="block text-lg font-medium text-gray-700 mb-2">
             Vehicle Make
           </label>
-          <select
+          <input
+              list="makes"
               id="make"
               className="block w-full py-3 px-4 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-lg"
               value={selectedMake}
@@ -69,58 +70,51 @@ const VehicleForm = () => {
                 setSelectedMake(e.target.value);
                 setSelectedModel(""); // Reset model when make changes
               }}
+              placeholder="Type or select a make"
               required
-          >
-            <option value="">Select a make</option>
+          />
+          <datalist id="makes">
             {makes.length > 0 ? (
                 makes.map((make) => (
-                    <option
-                        key={`${make.make_id}-${make.make_display}`}
-                        value={make.make_id}
-                    >
-                      {make.make_display}
-                    </option>
+                    <option key={make.make_id} value={make.make_display} />
                 ))
             ) : (
                 <option disabled>Loading makes...</option>
             )}
-          </select>
+          </datalist>
         </div>
 
         <div className="mb-6">
           <label htmlFor="model" className="block text-lg font-medium text-gray-700 mb-2">
             Vehicle Model
           </label>
-          <select
+          <input
+              list="models"
               id="model"
               className="block w-full py-3 px-4 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-lg"
               value={selectedModel}
               onChange={(e) => setSelectedModel(e.target.value)}
+              placeholder="Type or select a model"
               required
               disabled={!selectedMake} // Disable until make is selected
-          >
-            <option value="">Select a model</option>
+          />
+          <datalist id="models">
             {models.length > 0 ? (
                 models.map((model) => (
-                    <option
-                        key={`${model.model_id}-${model.model_name}`}
-                        value={model.model_name}
-                    >
-                      {model.model_name}
-                    </option>
+                    <option key={model.model_id} value={model.model_name} />
                 ))
             ) : selectedMake ? (
                 <option disabled>Loading models...</option>
             ) : (
                 <option disabled>Select a make first</option>
             )}
-          </select>
+          </datalist>
         </div>
 
         <div className="text-center">
           <button
               type="submit"
-              className="w-full bg-indigo-600 text-white py-3 px-5 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+              className="w-full bg-yellow-500 text-white py-3 px-5 rounded-md hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
           >
             Submit Inspection Request
           </button>
