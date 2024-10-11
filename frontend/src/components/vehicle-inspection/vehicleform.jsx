@@ -163,6 +163,7 @@ const VehicleForm = () => {
                     className="block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-yellow-500 focus:border-yellow-500"
                     value={selectedMake}
                     onChange={handleMakeInputChange}  // Update this to call the filtering function
+                    onBlur={() => setTimeout(() => setIsMakeDropdownOpen(false), 200)}  // Close the dropdown when focus is lost
                     placeholder="e.g. Ford"
                     required
                 />
@@ -184,6 +185,7 @@ const VehicleForm = () => {
                                   onClick={() => {
                                     setSelectedMake(make.make_display);
                                     setIsMakeDropdownOpen(false);
+                                    setSelectedModel("");
                                   }}
                                   className="cursor-pointer hover:bg-yellow-500 hover:text-white px-4 py-2"
                               >
