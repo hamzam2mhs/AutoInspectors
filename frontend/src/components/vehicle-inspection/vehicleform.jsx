@@ -21,7 +21,7 @@ const VehicleForm = () => {
   const [addons, setAddons] = useState({ carfax: false, verbalReport: false });
 
   const { isLoaded } = useJsApiLoader({
-    googleMapsApiKey: import.meta.env.REACT_APP_GOOGLE_MAPS_API_KEY,  // Use your API key securely
+    googleMapsApiKey: import.meta.env.VITE_GOOGLE_MAPS_API_KEY,  // Correctly referencing the key from .env
     libraries: ['places'],
   });
 
@@ -51,6 +51,7 @@ const VehicleForm = () => {
               console.error("Error fetching vehicle makes", err);
             } else {
               setMakes(data.Makes);
+              setFilteredMakes(data.Makes); // Populate the filtered makes initially
             }
           }
       );
@@ -70,6 +71,7 @@ const VehicleForm = () => {
                 console.error("Error fetching vehicle models", err);
               } else {
                 setModels(data.Models);
+                setFilteredModels(data.Models); // Populate the filtered models initially
               }
             }
         );
@@ -78,6 +80,7 @@ const VehicleForm = () => {
       fetchModels();
     } else {
       setModels([]);
+      setFilteredModels([]);
     }
   }, [selectedMake]);
 
@@ -89,8 +92,14 @@ const VehicleForm = () => {
     const filtered = makes.filter((make) =>
         make.make_display.toLowerCase().startsWith(input.toLowerCase())
     );
+
     setFilteredMakes(filtered);
-    setIsMakeDropdownOpen(true);
+
+    if (filtered.length > 0) {
+      setIsMakeDropdownOpen(true);
+    } else {
+      setIsMakeDropdownOpen(false);
+    }
   };
 
   const handleModelInputChange = (e) => {
