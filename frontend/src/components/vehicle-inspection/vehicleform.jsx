@@ -4,6 +4,12 @@ import jsonp from 'jsonp';
 import backgroundImage from "../../assets/FormImages/inspectionBackground.jpg";
 
 const VehicleForm = () => {
+  // Add state for controlling dropdown visibility for make and model
+  const [filteredMakes, setFilteredMakes] = useState([]);
+  const [filteredModels, setFilteredModels] = useState([]);
+
+  const [isMakeDropdownOpen, setIsMakeDropdownOpen] = useState(false);
+  const [isModelDropdownOpen, setIsModelDropdownOpen] = useState(false);
   const [makes, setMakes] = useState([]);
   const [models, setModels] = useState([]);
   const [selectedMake, setSelectedMake] = useState("");
@@ -61,6 +67,31 @@ const VehicleForm = () => {
     }
   }, [selectedMake]);
 
+  const handleMakeInputChange = (e) => {
+    const input = e.target.value;
+    setSelectedMake(input);
+
+    // Filter makes based on input
+    const filtered = makes.filter((make) =>
+        make.make_display.toLowerCase().startsWith(input.toLowerCase())
+    );
+    setFilteredMakes(filtered);
+    setIsMakeDropdownOpen(true);  // Open the dropdown when typing
+  };
+
+  const handleModelInputChange = (e) => {
+    const input = e.target.value;
+    setSelectedModel(input);
+
+    // Filter models based on input
+    const filtered = models.filter((model) =>
+        model.model_name.toLowerCase().startsWith(input.toLowerCase())
+    );
+    setFilteredModels(filtered);
+    setIsModelDropdownOpen(true);  // Open the dropdown when typing
+  };
+
+
   const handleSubmit = (e) => {
     e.preventDefault();
     const formData = {
@@ -116,92 +147,108 @@ const VehicleForm = () => {
               </div>
 
               {/* Vehicle Make */}
-              <div>
+              <div className="relative">
                 <label htmlFor="make" className="block text-lg font-medium text-gray-700">
                   Vehicle Make
                 </label>
                 <input
-                    list="makes"
+                    type="text"
                     id="make"
                     className="block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-yellow-500 focus:border-yellow-500"
                     value={selectedMake}
-                    onChange={(e) => {
-                      setSelectedMake(e.target.value);
-                      setSelectedModel(""); // Reset model when make changes
-                    }}
+                    onChange={handleMakeInputChange}  // Update this to call the filtering function
                     placeholder="e.g. Ford"
                     required
                 />
-                <datalist id="makes">
-                  {makes.length > 0 ? (
-                      makes.map((make) => (
-                          <option key={make.make_id} value={make.make_display} />
-                      ))
-                  ) : (
-                      <option disabled>Loading makes...</option>
-                  )}
-                </datalist>
+
+
+                {/* Custom Dropdown */}
+                {isMakeDropdownOpen && filteredMakes.length > 0 && (
+                    <ul className="absolute z-50 w-full mt-1 bg-white border border-gray-300 rounded-md shadow-lg max-h-60 overflow-auto">
+                      {filteredMakes.map((make) => (
+                          <li
+                              key={make.make_id}
+                              onClick={() => {
+                                setSelectedMake(make.make_display);  // Update selected make
+                                setIsMakeDropdownOpen(false);  // Close dropdown after selecting
+                              }}
+                              className="cursor-pointer hover:bg-yellow-500 hover:text-white px-4 py-2"
+                          >
+                            {make.make_display}
+                          </li>
+                      ))}
+                    </ul>
+                )}
               </div>
 
               {/* Vehicle Model */}
-              <div>
+              <div className="relative">
                 <label htmlFor="model" className="block text-lg font-medium text-gray-700">
                   Vehicle Model
                 </label>
                 <input
-                    list="models"
+                    type="text"
                     id="model"
                     className="block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-yellow-500 focus:border-yellow-500"
                     value={selectedModel}
-                    onChange={(e) => setSelectedModel(e.target.value)}
+                    onChange={handleModelInputChange}  // Update this to call the filtering function
                     placeholder="e.g. Fusion"
                     required
                     disabled={!selectedMake} // Disable until make is selected
                 />
-                <datalist id="models">
-                  {models.length > 0 ? (
-                      models.map((model) => (
-                          <option key={model.model_id} value={model.model_name} />
-                      ))
-                  ) : selectedMake ? (
-                      <option disabled>Loading models...</option>
-                  ) : (
-                      <option disabled>Select a make first</option>
-                  )}
-                </datalist>
+
+                {/* Custom Dropdown */}
+                {isModelDropdownOpen && filteredModels.length > 0 && (
+                    <ul className="absolute z-50 w-full mt-1 bg-white border border-gray-300 rounded-md shadow-lg max-h-60 overflow-auto">
+                      {filteredModels.map((model) => (
+                          <li
+                              key={model.model_id}
+                              onClick={() => {
+                                setSelectedModel(model.model_name);  // Update selected model
+                                setIsModelDropdownOpen(false);  // Close dropdown
+                              }}
+                              className="cursor-pointer hover:bg-yellow-500 hover:text-white px-4 py-2"
+                          >
+                            {model.model_name}
+                          </li>
+                      ))}
+                    </ul>
+                )}
               </div>
             </div>
+            {/* Seller's Information Row */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {/* Seller's Name */}
+              <div>
+                <label htmlFor="seller-name" className="block text-lg font-medium text-gray-700">
+                  Seller's Name
+                </label>
+                <input
+                    type="text"
+                    id="seller-name"
+                    className="block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-yellow-500 focus:border-yellow-500"
+                    value={sellerName}
+                    onChange={(e) => setSellerName(e.target.value)}
+                    placeholder="Enter the seller's name"
+                    required
+                />
+              </div>
 
-            {/* Seller's Name */}
-            <div className="grid grid-cols-1 gap-4">
-              <label htmlFor="seller-name" className="block text-lg font-medium text-gray-700">
-                Seller's Name
-              </label>
-              <input
-                  type="text"
-                  id="seller-name"
-                  className="block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-yellow-500 focus:border-yellow-500"
-                  value={sellerName}
-                  onChange={(e) => setSellerName(e.target.value)}
-                  placeholder="Enter the seller's name"
-                  required
-              />
-            </div>
-
-            {/* Contact Number */}
-            <div className="grid grid-cols-1 gap-4">
-              <label htmlFor="contact-number" className="block text-lg font-medium text-gray-700">
-                Contact Number
-              </label>
-              <input
-                  type="tel"
-                  id="contact-number"
-                  className="block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-yellow-500 focus:border-yellow-500"
-                  value={contactNumber}
-                  onChange={(e) => setContactNumber(e.target.value)}
-                  placeholder="Enter the contact number"
-                  required
-              />
+              {/* Contact Number */}
+              <div>
+                <label htmlFor="contact-number" className="block text-lg font-medium text-gray-700">
+                  Contact Number
+                </label>
+                <input
+                    type="tel"
+                    id="contact-number"
+                    className="block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-yellow-500 focus:border-yellow-500"
+                    value={contactNumber}
+                    onChange={(e) => setContactNumber(e.target.value)}
+                    placeholder="Enter the contact number"
+                    required
+                />
+              </div>
             </div>
 
             {/* Address */}
@@ -220,7 +267,7 @@ const VehicleForm = () => {
             {/* Add-ons */}
             <div className="border p-4 bg-gray-100 rounded-md">
               <h3 className="text-lg font-bold text-gray-700 mb-2">Inspection Add-Ons</h3>
-              <p className="text-gray-600 mb-4">You can add any of the following add-ons to your order!</p>
+              <p className="text-gray-600 mb-4">Enhance your inspection package with these optional services!</p>
 
               <div className="space-y-2">
                 <div className="flex items-center">
@@ -232,7 +279,10 @@ const VehicleForm = () => {
                       checked={addons.carfax}
                       onChange={handleAddonsChange}
                   />
-                  <label htmlFor="carfax" className="ml-2 text-gray-700">$34.99 - CARFAX Vehicle History Report</label>
+                  <label htmlFor="carfax" className="ml-2 text-gray-700">
+                    $25.99 - CARFAX Vehicle History Report
+                    <span className="text-red-500"> (Limited time discount)</span>
+                  </label>
                 </div>
 
                 <div className="flex items-center">
@@ -244,7 +294,7 @@ const VehicleForm = () => {
                       checked={addons.verbalReport}
                       onChange={handleAddonsChange}
                   />
-                  <label htmlFor="verbalReport" className="ml-2 text-gray-700">$49.99 - Verbal Vehicle Assessment Report</label>
+                  <label htmlFor="verbalReport" className="ml-2 text-gray-700">$20.99 - Verbal Vehicle Assessment Report</label>
                 </div>
               </div>
             </div>
