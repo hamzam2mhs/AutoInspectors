@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import jsonp from 'jsonp';
+import { useJsApiLoader, Autocomplete } from '@react-google-maps/api';
 import backgroundImage from "../../assets/FormImages/inspectionBackground.jpg";
 
 const VehicleForm = () => {
-  // Add state for controlling dropdown visibility for make and model
   const [filteredMakes, setFilteredMakes] = useState([]);
   const [filteredModels, setFilteredModels] = useState([]);
-
   const [isMakeDropdownOpen, setIsMakeDropdownOpen] = useState(false);
   const [isModelDropdownOpen, setIsModelDropdownOpen] = useState(false);
   const [makes, setMakes] = useState([]);
@@ -18,14 +17,30 @@ const VehicleForm = () => {
   const [sellerName, setSellerName] = useState("");
   const [contactNumber, setContactNumber] = useState("");
   const [address, setAddress] = useState("");
-  const [addons, setAddons] = useState({
-    carfax: false,
-    verbalReport: false,
+  const [autocomplete, setAutocomplete] = useState(null);
+  const [addons, setAddons] = useState({ carfax: false, verbalReport: false });
+
+  const { isLoaded } = useJsApiLoader({
+    googleMapsApiKey: "AIzaSyBc6YlZDMSCgKB7uNuGQAp2fkntZjwra34",  // Use your API key securely
+    libraries: ['places'],
   });
 
   const navigate = useNavigate();
 
-  // Fetch vehicle makes from Car Query API
+  const onLoad = (autocompleteInstance) => {
+    console.log('Autocomplete loaded:', autocompleteInstance);
+    setAutocomplete(autocompleteInstance);
+  };
+
+  const onPlaceChanged = () => {
+    if (autocomplete !== null) {
+      const place = autocomplete.getPlace();
+      setAddress(place.formatted_address || "");
+    } else {
+      console.log('Autocomplete is not loaded yet!');
+    }
+  };
+
   useEffect(() => {
     const fetchMakes = () => {
       jsonp(
@@ -44,7 +59,6 @@ const VehicleForm = () => {
     fetchMakes();
   }, []);
 
-  // Fetch vehicle models based on selected make
   useEffect(() => {
     if (selectedMake) {
       const fetchModels = () => {
@@ -70,33 +84,25 @@ const VehicleForm = () => {
   const handleMakeInputChange = (e) => {
     const input = e.target.value;
     setSelectedMake(input);
-
-    // Reset the selected model when the make changes
     setSelectedModel("");
 
-    // Filter makes based on input
     const filtered = makes.filter((make) =>
         make.make_display.toLowerCase().startsWith(input.toLowerCase())
     );
     setFilteredMakes(filtered);
-    setIsMakeDropdownOpen(true);  // Open the dropdown when typing
+    setIsMakeDropdownOpen(true);
   };
-
-
 
   const handleModelInputChange = (e) => {
     const input = e.target.value;
     setSelectedModel(input);
 
-    // Filter models based on input
     const filtered = models.filter((model) =>
         model.model_name.toLowerCase().startsWith(input.toLowerCase())
     );
     setFilteredModels(filtered);
-    setIsModelDropdownOpen(true);  // Open the dropdown when typing
+    setIsModelDropdownOpen(true);
   };
-
-
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -109,7 +115,6 @@ const VehicleForm = () => {
       address,
       addons,
     };
-
     console.log("Form Data Submitted: ", formData);
     navigate("/inspection");
   };
@@ -119,22 +124,21 @@ const VehicleForm = () => {
     setAddons({ ...addons, [name]: checked });
   };
 
+  if (!isLoaded) {
+    return <div>Loading Google Maps...</div>;
+  }
+
   return (
       <div className="relative w-full h-screen bg-gray-200">
-        {/* Background Image */}
         <img
             src={backgroundImage}
             alt="Background Image"
             className="absolute inset-0 w-full h-full object-cover z-0"
         />
-
-        {/* Overlay Content */}
         <div className="absolute inset-0 flex justify-center items-center z-10 bg-black bg-opacity-50">
-          {/* Vehicle Form */}
           <form className="bg-white bg-opacity-90 p-8 max-w-3xl w-full shadow-xl rounded-lg space-y-6" onSubmit={handleSubmit}>
             <h1 className="text-2xl font-bold text-center text-gray-800 mb-4">Order Vehicle Inspection</h1>
 
-            {/* Row for Vehicle Year, Make, and Model */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               {/* Vehicle Year */}
               <div>
@@ -162,14 +166,12 @@ const VehicleForm = () => {
                     id="make"
                     className="block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-yellow-500 focus:border-yellow-500"
                     value={selectedMake}
-                    onChange={handleMakeInputChange}  // Update this to call the filtering function
-                    onBlur={() => setTimeout(() => setIsMakeDropdownOpen(false), 200)}  // Close the dropdown when focus is lost
+                    onChange={handleMakeInputChange}
+                    onBlur={() => setTimeout(() => setIsMakeDropdownOpen(false), 200)}
                     placeholder="e.g. Ford"
                     required
                 />
 
-
-                {/* Custom Dropdown */}
                 {isMakeDropdownOpen && (
                     <ul className="absolute z-50 w-full mt-1 bg-white border border-gray-300 rounded-md shadow-lg max-h-60 overflow-auto">
                       <li
@@ -209,13 +211,12 @@ const VehicleForm = () => {
                     id="model"
                     className="block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-yellow-500 focus:border-yellow-500"
                     value={selectedModel}
-                    onChange={handleModelInputChange}  // Update this to call the filtering function
+                    onChange={handleModelInputChange}
                     placeholder="e.g. Fusion"
                     required
-                    disabled={!selectedMake} // Disable until make is selected
+                    disabled={!selectedMake}
                 />
 
-                {/* Custom Dropdown */}
                 {isModelDropdownOpen && (
                     <ul className="absolute z-50 w-full mt-1 bg-white border border-gray-300 rounded-md shadow-lg max-h-60 overflow-auto">
                       <li
@@ -244,9 +245,9 @@ const VehicleForm = () => {
                 )}
               </div>
             </div>
+
             {/* Seller's Information Row */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {/* Seller's Name */}
               <div>
                 <label htmlFor="seller-name" className="block text-lg font-medium text-gray-700">
                   Seller's Name
@@ -262,7 +263,6 @@ const VehicleForm = () => {
                 />
               </div>
 
-              {/* Contact Number */}
               <div>
                 <label htmlFor="contact-number" className="block text-lg font-medium text-gray-700">
                   Contact Number
@@ -279,17 +279,22 @@ const VehicleForm = () => {
               </div>
             </div>
 
-            {/* Address */}
+            {/* Address Autocomplete */}
             <div className="grid grid-cols-1 gap-4">
-              <label htmlFor="address" className="block text-lg font-medium text-gray-700">Address of the Vehicle</label>
-              <textarea
-                  id="address"
-                  className="block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-yellow-500 focus:border-yellow-500"
-                  value={address}
-                  onChange={(e) => setAddress(e.target.value)}
-                  placeholder="Enter the address of the vehicle"
-                  required
-              />
+              <label htmlFor="address" className="block text-lg font-medium text-gray-700">
+                Address of the Vehicle
+              </label>
+              <Autocomplete onLoad={onLoad} onPlaceChanged={onPlaceChanged}>
+                <input
+                    type="text"
+                    id="address"
+                    className="block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-yellow-500 focus:border-yellow-500"
+                    value={address}
+                    onChange={(e) => setAddress(e.target.value)}
+                    placeholder="Enter the address of the vehicle"
+                    required
+                />
+              </Autocomplete>
             </div>
 
             {/* Add-ons */}
@@ -307,8 +312,6 @@ const VehicleForm = () => {
                       checked={addons.carfax}
                       onChange={handleAddonsChange}
                   />
-
-
                   <label htmlFor="carfax" className="ml-2 text-gray-700">
                     $25.99 - CARFAX Vehicle History Report
                     <span className="text-red-500"> (Limited time discount)</span>
@@ -338,11 +341,10 @@ const VehicleForm = () => {
                 Submit Inspection Request
               </button>
             </div>
-          </form> {/* Make sure this form closing tag is after the submit button */}
-
-</div>
-</div>
-);
+          </form>
+        </div>
+      </div>
+  );
 };
 
 export default VehicleForm;
