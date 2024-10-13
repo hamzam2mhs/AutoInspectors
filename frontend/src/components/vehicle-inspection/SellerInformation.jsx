@@ -13,7 +13,7 @@ const SellerInformation = ({
           htmlFor="seller-name"
           className="block text-lg font-medium text-gray-700"
         >
-          Seller's Name
+          Full Name<span className="text-red-500">*</span>
         </label>
         <input
           type="text"
@@ -31,7 +31,7 @@ const SellerInformation = ({
           htmlFor="contact-number"
           className="block text-lg font-medium text-gray-700"
         >
-          Contact Number
+          Contact Number<span className="text-red-500">*</span>
         </label>
         <input
           type="tel"

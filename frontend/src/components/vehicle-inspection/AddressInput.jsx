@@ -15,7 +15,7 @@ const AddressInput = ({ address, setAddress }) => {
         htmlFor="address"
         className="block text-lg font-medium text-gray-700"
       >
-        Address of the Vehicle
+        Address of the Vehicle<span className="text-red-500">*</span>
       </label>
       <Autocomplete onPlaceChanged={onPlaceChanged}>
         <input
