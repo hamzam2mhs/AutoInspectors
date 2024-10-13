@@ -4,6 +4,7 @@ import Navbar from "./components/Navbar/Navbar";
 import Home from "./components/Home/Home"; // Home page with Carousel, About, Services, etc.
 import VehicleInspectionForm from "./components/vehicle-inspection/vehicleform";
 import ContactForm from "./components/ContactForm/ContactForm";
+import Footer from "./components/Footer/Footer"; // Corrected "from" typo
 
 // Inspection order route shows the Vehicle Inspection Form
 const InspectionOrder = () => <VehicleInspectionForm />;
@@ -19,7 +20,7 @@ const App = () => {
         {/* Navbar component */}
         <Navbar />
 
-        <div className="p-4">
+        <div className="p-4 min-h-screen">
           <Routes>
             {/* Home route with full homepage content */}
             <Route path="/" element={<Home />} />
@@ -43,6 +44,9 @@ const App = () => {
             />
           </Routes>
         </div>
+
+        {/* Footer component */}
+        <Footer />
       </div>
     </Router>
   );
