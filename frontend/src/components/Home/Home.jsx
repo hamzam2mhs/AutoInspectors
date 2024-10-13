@@ -11,6 +11,7 @@ const Home = () => {
       <About />
       <Services />
       <PricingPlans />
+
     </div>
   );
 };
