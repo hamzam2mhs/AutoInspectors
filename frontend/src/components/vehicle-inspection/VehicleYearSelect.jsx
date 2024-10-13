@@ -47,7 +47,7 @@ const VehicleYearSelect = ({ vehicleYear, setVehicleYear }) => {
   return (
       <div className="relative">
         <label htmlFor="year" className="block text-lg font-medium text-gray-700">
-          Vehicle Year <span className="text-red-500">*</span>
+          Vehicle Year<span className="text-red-500">*</span>
         </label>
         <input
             type="text"
