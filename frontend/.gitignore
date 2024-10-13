@@ -23,3 +23,14 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Ignore .idea folder (for JetBrains IDEs like WebStorm, PyCharm, etc.)
+.idea/
+
+# Ignore macOS-specific system files
+.DS_Store
+
+# Other common system or IDE-specific files (optional)
+.vscode/
+node_modules/
+.env
