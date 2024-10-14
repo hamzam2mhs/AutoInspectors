@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useJsApiLoader } from "@react-google-maps/api";
+import emailjs from "emailjs-com";
 import backgroundImage from "../../assets/FormImages/inspectionBackground.jpg";
 
 // Import subcomponents
@@ -19,6 +20,7 @@ const VehicleForm = () => {
     const [contactNumber, setContactNumber] = useState("");
     const [address, setAddress] = useState("");
     const [addons, setAddons] = useState({ carfax: false, verbalReport: false });
+    const [isBuyer, setIsBuyer] = useState(false); // State for buyer checkbox
 
     const { isLoaded } = useJsApiLoader({
         googleMapsApiKey: import.meta.env.VITE_GOOGLE_MAPS_API_KEY,
@@ -29,17 +31,40 @@ const VehicleForm = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
+
+        // Collect form data
         const formData = {
             vehicleYear,
             selectedMake,
             selectedModel,
+            isBuyer: isBuyer ? "Yes" : "No",  // Include buyer information
             sellerName,
             contactNumber,
             address,
-            addons,
+            carfax: addons.carfax ? "Yes" : "No",
+            verbalReport: addons.verbalReport ? "Yes" : "No",
         };
-        console.log("Form Data Submitted: ", formData);
-        navigate("/inspection");
+
+        // Display the collected form data in the console for debugging
+        console.log("Form Data:", formData);
+
+        // Send form data via email using EmailJS
+        emailjs
+            .send(
+                "service_8kk6fug", // Replace with your Service ID
+                "template_r94velc", // Replace with your Template ID
+                formData,
+                "vdmHT32R3PRC5Ei7c" // Replace with your Public Key
+            )
+            .then(
+                (result) => {
+                    console.log("Email successfully sent!", result.text);
+                    navigate("/inspection"); // Navigate after form submission
+                },
+                (error) => {
+                    console.error("Error sending email:", error.text);
+                }
+            );
     };
 
     if (!isLoaded) {
@@ -64,20 +89,15 @@ const VehicleForm = () => {
 
                     {/* Group Vehicle Year, Make, and Model in one row */}
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                        {/* Vehicle Year */}
                         <VehicleYearSelect
                             vehicleYear={vehicleYear}
                             setVehicleYear={setVehicleYear}
                         />
-
-                        {/* Vehicle Make */}
                         <VehicleMakeSelect
                             selectedMake={selectedMake}
                             setSelectedMake={setSelectedMake}
                             setSelectedModel={setSelectedModel}
                         />
-
-                        {/* Vehicle Model */}
                         <VehicleModelSelect
                             selectedModel={selectedModel}
                             setSelectedModel={setSelectedModel}
@@ -91,6 +111,8 @@ const VehicleForm = () => {
                         setSellerName={setSellerName}
                         contactNumber={contactNumber}
                         setContactNumber={setContactNumber}
+                        isBuyer={isBuyer}
+                        setIsBuyer={setIsBuyer} // Pass the buyer checkbox state
                     />
 
                     {/* Address */}
