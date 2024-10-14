@@ -1,70 +1,128 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
+import emailjs from 'emailjs-com';
 
 const ContactForm = () => {
   const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    message: "",
+    name: '',
+    email: '',
+    message: '',
   });
+
+  const [notification, setNotification] = useState(''); // State to handle notification messages
+  const [status, setStatus] = useState(''); // Status to track success or error
+
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    try {
-      // Send the contact form data to the backend (you'll need to set this up)
-      const response = await fetch("http://localhost:5000/api/contact", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
 
-      const result = await response.json();
-      console.log("Message sent:", result);
-      // You can show a success message or redirect the user
-    } catch (error) {
-      console.error("Error sending contact form:", error);
-    }
+    // Prepare data to send to EmailJS
+    const emailData = {
+      from_name: formData.name,        // Send "name" from the form as "from_name"
+      to_name: 'Recipient Name',       // You can change this as needed
+      message: formData.message,       // Message content
+      from_email: formData.email,      // Optional: You can pass more data like the sender's email
+    };
+
+
+    emailjs
+      .send(
+        //TODO: set these in .env, although no Secret key is exposed here.
+        'service_tivph1j', //service ID
+        'template_1h501gu', //template name
+        emailData,
+        'vXq6coXIgPVXGoVN4' // public api key
+      )
+      .then(
+        (result) => {
+          console.log('Email sent successfully!', result.text);
+          setNotification('Message sent successfully!');
+          setStatus('success'); // Set success status
+          setFormData({ name: '', email: '', message: '' }); // Clear form
+        },
+        (error) => {
+          console.error('Error sending email:', error.text);
+          setNotification('Failed to send the message. Please try again.');
+          setStatus('error'); // Set error status
+        }
+      );
   };
 
   return (
-    <form onSubmit={handleSubmit} className="contact-form">
-      <h2>Contact Us</h2>
-      <label>
-        Name:
-        <input
-          type="text"
-          name="name"
-          value={formData.name}
-          onChange={handleChange}
-          required
-        />
-      </label>
-      <label>
-        Email:
-        <input
-          type="email"
-          name="email"
-          value={formData.email}
-          onChange={handleChange}
-          required
-        />
-      </label>
-      <label>
-        Message:
-        <textarea
-          name="message"
-          value={formData.message}
-          onChange={handleChange}
-          required
-        />
-      </label>
-      <button type="submit">Send Message</button>
-    </form>
+    <div className="flex justify-center items-center py-12 bg-gray-100">
+      <form
+        onSubmit={handleSubmit}
+        className="w-full max-w-lg bg-white shadow-md rounded px-8 py-6"
+      >
+        <h2 className="text-3xl font-bold mb-6 text-center text-gray-800">Contact Us</h2>
+
+        <div className="mb-4">
+          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="name">
+            Name
+          </label>
+          <input
+            id="name"
+            type="text"
+            name="name"
+            value={formData.name}
+            onChange={handleChange}
+            required
+            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          />
+        </div>
+
+        <div className="mb-4">
+          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="email">
+            Email
+          </label>
+          <input
+            id="email"
+            type="email"
+            name="email"
+            value={formData.email}
+            onChange={handleChange}
+            required
+            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          />
+        </div>
+
+        <div className="mb-6">
+          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="message">
+            Message
+          </label>
+          <textarea
+            id="message"
+            name="message"
+            value={formData.message}
+            onChange={handleChange}
+            required
+            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline h-32 resize-none"
+          ></textarea>
+        </div>
+
+        <div className="flex items-center justify-center">
+          <button
+            type="submit"
+            className="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+          >
+            Send Message
+          </button>
+        </div>
+
+        {/* Notification message */}
+        {notification && (
+          <div
+            className={`mt-4 p-2 text-center font-semibold ${status === 'success' ? 'text-green-500' : 'text-red-500'
+              }`}
+          >
+            {notification}
+          </div>
+        )}
+      </form>
+    </div>
   );
 };
 
