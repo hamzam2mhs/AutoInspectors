@@ -28,14 +28,12 @@ const ContactForm = () => {
     };
 
 
-    emailjs
-      .send(
-        //TODO: set these in .env, although no Secret key is exposed here.
-        'service_tivph1j', //service ID
-        'template_1h501gu', //template name
-        emailData,
-        'vXq6coXIgPVXGoVN4' // public api key
-      )
+    emailjs.send(
+      import.meta.env.VITE_EMAILJS_SERVICE_ID, // Service ID
+      import.meta.env.VITE_EMAILJS_TEMPLATE_ID, // Template ID
+      emailData,
+      import.meta.env.VITE_EMAILJS_PUBLIC_KEY // Public API Key
+    )
       .then(
         (result) => {
           console.log('Email sent successfully!', result.text);
