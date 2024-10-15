@@ -8,9 +8,8 @@ const ContactForm = () => {
     message: '',
   });
 
-  const [notification, setNotification] = useState(''); // State to handle notification messages
-  const [status, setStatus] = useState(''); // Status to track success or error
-
+  const [notification, setNotification] = useState('');
+  const [status, setStatus] = useState('');
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -19,32 +18,29 @@ const ContactForm = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // Prepare data to send to EmailJS
     const emailData = {
-      from_name: formData.name,        // Send "name" from the form as "from_name"
-      to_name: 'Recipient Name',       // You can change this as needed
-      message: formData.message,       // Message content
-      from_email: formData.email,      // Optional: You can pass more data like the sender's email
+      from_name: formData.name,
+      to_name: 'Recipient Name',
+      message: formData.message,
+      from_email: formData.email,
     };
 
-
-    emailjs.send(
-      import.meta.env.VITE_EMAILJS_SERVICE_ID, // Service ID
-      import.meta.env.VITE_EMAILJS_TEMPLATE_ID, // Template ID
-      emailData,
-      import.meta.env.VITE_EMAILJS_PUBLIC_KEY // Public API Key
-    )
+    emailjs
+      .send(
+        import.meta.env.VITE_EMAILJS_SERVICE_ID,
+        import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
+        emailData,
+        import.meta.env.VITE_EMAILJS_PUBLIC_KEY
+      )
       .then(
         (result) => {
-          console.log('Email sent successfully!', result.text);
           setNotification('Message sent successfully!');
-          setStatus('success'); // Set success status
-          setFormData({ name: '', email: '', message: '' }); // Clear form
+          setStatus('success');
+          setFormData({ name: '', email: '', message: '' });
         },
         (error) => {
-          console.error('Error sending email:', error.text);
           setNotification('Failed to send the message. Please try again.');
-          setStatus('error'); // Set error status
+          setStatus('error');
         }
       );
   };
@@ -104,17 +100,17 @@ const ContactForm = () => {
         <div className="flex items-center justify-center">
           <button
             type="submit"
-            className="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+            className="px-8 py-4 bg-gradient-to-r from-yellow-400 to-yellow-600 text-black font-semibold rounded-lg shadow-lg hover:from-yellow-500 hover:to-yellow-700 transition transform hover:scale-105 duration-300 ease-out focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500"
           >
             Send Message
           </button>
         </div>
 
-        {/* Notification message */}
         {notification && (
           <div
-            className={`mt-4 p-2 text-center font-semibold ${status === 'success' ? 'text-green-500' : 'text-red-500'
-              }`}
+            className={`mt-4 p-2 text-center font-semibold ${
+              status === 'success' ? 'text-green-500' : 'text-red-500'
+            }`}
           >
             {notification}
           </div>
