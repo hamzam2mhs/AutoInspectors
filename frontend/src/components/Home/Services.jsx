@@ -9,32 +9,31 @@ const Services = () => {
         backgroundImage: `url(${backgroundImage})`,
       }}
     >
-      <div className="bg-black bg-opacity-60 py-12">
+      <div className="bg-black bg-opacity-60 py-16">
         <div className="container mx-auto px-4">
-          <h2 className="text-4xl font-bold mb-10 text-center">
+          <h2 className="text-4xl font-bold mb-12 text-center">
             What is the Inspection Process?
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            
             {/* Step 1 */}
-            <div className="bg-gray-800 p-6 rounded-md text-center">
+            <div className="bg-gray-800 p-8 rounded-lg text-center hover:shadow-lg transition transform hover:scale-105 duration-300 ease-out">
               <div className="text-6xl font-bold mb-4">1</div>
-              <h3 className="font-bold text-2xl mb-2">Order Inspection</h3>
-              <p className="mb-4">
+              <h3 className="font-bold text-2xl mb-4">Order Inspection</h3>
+              <p className="mb-6">
                 Place an order for a vehicle inspection through the site or by
                 phone.
               </p>
-              <button className="bg-yellow-500 text-black font-semibold px-6 py-3 rounded hover:bg-yellow-600">
+              <button className="bg-gradient-to-r from-yellow-400 to-yellow-600 text-black font-semibold px-6 py-3 rounded-lg hover:from-yellow-500 hover:to-yellow-700 transition duration-300 ease-out">
                 Order Online
               </button>
-              <p className="mt-2 text-lg">(888) 231-7965</p>
+              <p className="mt-4 text-lg">(888) 231-7965</p>
             </div>
 
             {/* Step 2 */}
-            <div className="bg-gray-800 p-6 rounded-md text-center">
+            <div className="bg-gray-800 p-8 rounded-lg text-center hover:shadow-lg transition transform hover:scale-105 duration-300 ease-out">
               <div className="text-6xl font-bold mb-4">2</div>
-              <h3 className="font-bold text-2xl mb-2">
-                Our Inspector Inspects
-              </h3>
+              <h3 className="font-bold text-2xl mb-4">Our Inspector Inspects</h3>
               <p>
                 Our expert inspector will contact your seller to verify the
                 availability of the vehicle and set up an appointment to inspect
@@ -43,9 +42,9 @@ const Services = () => {
             </div>
 
             {/* Step 3 */}
-            <div className="bg-gray-800 p-6 rounded-md text-center">
+            <div className="bg-gray-800 p-8 rounded-lg text-center hover:shadow-lg transition transform hover:scale-105 duration-300 ease-out">
               <div className="text-6xl font-bold mb-4">3</div>
-              <h3 className="font-bold text-2xl mb-2">Receive Your Report</h3>
+              <h3 className="font-bold text-2xl mb-4">Receive Your Report</h3>
               <p>
                 The inspector will upload the report to us, and after an
                 error-checking process, you'll be notified when your report is
