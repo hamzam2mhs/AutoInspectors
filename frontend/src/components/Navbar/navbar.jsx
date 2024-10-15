@@ -69,15 +69,6 @@ const Navbar = () => {
           </li>
           <li className="mb-4 lg:mb-0">
             <Link
-              to="/location"
-              className="text-white hover:text-gray-300 transition duration-300 transform hover:scale-105"
-              onClick={handleMenuClick}
-            >
-              Location
-            </Link>
-          </li>
-          <li className="mb-4 lg:mb-0">
-            <Link
               to="/blog"
               className="text-white hover:text-gray-300 transition duration-300 transform hover:scale-105"
               onClick={handleMenuClick}
@@ -101,15 +92,6 @@ const Navbar = () => {
               onClick={handleMenuClick}
             >
               About
-            </Link>
-          </li>
-          <li className="mb-4 lg:mb-0">
-            <Link
-              to="/services"
-              className="text-white hover:text-gray-300 transition duration-300 transform hover:scale-105"
-              onClick={handleMenuClick}
-            >
-              Services
             </Link>
           </li>
         </ul>
