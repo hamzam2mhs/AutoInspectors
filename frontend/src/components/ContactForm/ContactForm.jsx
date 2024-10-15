@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import emailjs from 'emailjs-com';
+import carImage from "../../assets/HomeImages/Nangma.jpg"; // Adjust the path based on your folder structure
 
 const ContactForm = () => {
   const [formData, setFormData] = useState({
@@ -46,10 +47,15 @@ const ContactForm = () => {
   };
 
   return (
-    <div className="flex justify-center items-center py-12 bg-gray-100">
+    <div
+      className="flex justify-center items-center py-12 min-h-screen bg-cover bg-center"
+      style={{
+        backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(${carImage})`,
+      }}
+    >
       <form
         onSubmit={handleSubmit}
-        className="w-full max-w-lg bg-white shadow-md rounded px-8 py-6"
+        className="w-full max-w-lg bg-white bg-opacity-90 shadow-md rounded px-8 py-6"
       >
         <h2 className="text-3xl font-bold mb-6 text-center text-gray-800">Contact Us</h2>
 
