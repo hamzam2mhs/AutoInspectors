@@ -100,7 +100,7 @@ const VehicleForm = () => {
           <div className="text-center">
             <button
               type="submit"
-              className="w-full px-8 py-4 bg-gradient-to-r from-yellow-400 to-yellow-600 text-black font-semibold rounded-lg shadow-lg hover:from-yellow-500 hover:to-yellow-700 transition transform hover:scale-105 duration-300 ease-out focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500"
+              className="w-full px-8 py-4 bg-gradient-to-r from-yellow-400 to-yellow-600 text-black font-semibold text-lg md:text-xl rounded-lg shadow-lg hover:from-yellow-500 hover:to-yellow-700 transition transform hover:scale-105 duration-300 ease-out focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500"
             >
               Submit Inspection Request
             </button>
