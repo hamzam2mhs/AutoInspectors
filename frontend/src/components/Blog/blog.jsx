@@ -10,8 +10,8 @@ const Blog = () => {
       className="min-h-screen bg-cover bg-center bg-no-repeat p-8"
       style={{ backgroundImage: `url(${blogImage})` }} // Using the imported image
     >
-      <div className="bg-white bg-opacity-95 rounded-lg shadow-lg max-w-6xl mx-auto p-6">
-        <h1 className="text-4xl font-bold text-center text-gray-800 mb-6">
+      <div className="bg-gray-800 bg-opacity-90 rounded-lg shadow-lg max-w-6xl mx-auto p-8">
+        <h1 className="text-4xl font-bold text-center text-white mb-6">
           AutoInspectors Blog
         </h1>
         {/* Nested routing for blog section */}

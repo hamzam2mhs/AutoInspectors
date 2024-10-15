@@ -11,7 +11,7 @@ const Carousel = () => {
 
   return (
     <div className="relative w-full h-[700px] overflow-hidden -mt-1">
-      {/* Background Image without Fixed Parallax */}
+      {/* Background Image */}
       <div
         style={{
           backgroundImage: `url(${carImage})`,
@@ -21,8 +21,8 @@ const Carousel = () => {
         className="absolute inset-0 w-full h-full"
       />
 
-      {/* Lighter Gradient Overlay */}
-      <div className="absolute inset-0 bg-gradient-to-b from-black/40 to-black/80 flex flex-col justify-center items-center text-center text-white px-4">
+      {/* Refined Gradient Overlay */}
+      <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/50 to-black/60 flex flex-col justify-center items-center text-center text-white px-4">
         <h1 className="text-4xl md:text-6xl font-extrabold drop-shadow-lg mb-4 transition-opacity duration-1000 ease-out">
           Don’t Buy Trouble – Get It Inspected First!
         </h1>
