@@ -80,7 +80,7 @@ const VehicleForm = () => {
         alt="Background"
         className="absolute inset-0 w-full h-full object-cover z-0"
       />
-      <div className="absolute inset-0 flex justify-center items-center z-10 bg-black bg-opacity-50">
+      <div className="absolute inset-0 flex justify-center items-center z-10 bg-black bg-opacity-60">
         {isSubmitted ? (
           <div className="bg-white bg-opacity-90 p-8 max-w-3xl w-full shadow-xl rounded-lg text-center">
             <h1 className="text-3xl font-bold text-gray-800 mb-4">
@@ -93,15 +93,15 @@ const VehicleForm = () => {
           </div>
         ) : (
           <form
-            className="bg-white bg-opacity-90 p-8 max-w-3xl w-full shadow-xl rounded-lg space-y-6"
+            className="bg-white bg-opacity-90 p-10 max-w-3xl w-full shadow-2xl rounded-lg space-y-6 text-gray-800"
             onSubmit={handleSubmit}
           >
-            <h1 className="text-2xl font-bold text-center text-gray-800 mb-4">
+            <h1 className="text-3xl font-extrabold text-center text-gray-800 mb-6">
               Order Vehicle Inspection
             </h1>
 
             {/* Group Vehicle Year, Make, and Model in one row */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               <VehicleYearSelect
                 vehicleYear={vehicleYear}
                 setVehicleYear={setVehicleYear}
@@ -135,10 +135,10 @@ const VehicleForm = () => {
             <AddonsSelect addons={addons} setAddons={setAddons} />
 
             {/* Submit Button */}
-            <div className="text-center">
+            <div className="text-center mt-8">
               <button
                 type="submit"
-                className="w-full bg-yellow-500 text-black py-3 px-5 rounded-md hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500"
+                className="w-full px-8 py-4 bg-gradient-to-r from-yellow-400 to-yellow-600 text-black font-semibold rounded-lg shadow-lg hover:from-yellow-500 hover:to-yellow-700 transition transform hover:scale-105 duration-300 ease-out"
               >
                 Submit Inspection Request
               </button>
