@@ -1,11 +1,11 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import Navbar from "./components/Navbar/Navbar";
-import Home from "./components/Home/Home";
-import VehicleInspectionForm from "./components/vehicle-inspection/vehicleform";
-import ContactForm from "./components/ContactForm/ContactForm";
-import Footer from "./components/Footer/Footer";
-import Blog from "./components/Blog/Blog"; // Updated Blog import
+import Navbar from "./components/Navbar/navbar.jsx";
+import Home from "./components/Home/Home.jsx";
+import VehicleInspectionForm from "./components/vehicle-inspection/vehicleform.jsx";
+import ContactForm from "./components/ContactForm/ContactForm.jsx";
+import Footer from "./components/Footer/Footer.jsx";
+import Blog from "./components/Blog/blog.jsx"; // Updated Blog import
 
 const InspectionOrder = () => <VehicleInspectionForm />;
 const Location = () => <h1 className="text-3xl font-bold">Hello Location</h1>;
