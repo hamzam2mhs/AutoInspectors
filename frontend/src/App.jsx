@@ -6,6 +6,7 @@ import VehicleInspectionForm from "./components/vehicle-inspection/vehicleform.j
 import ContactForm from "./components/ContactForm/ContactForm.jsx";
 import Footer from "./components/Footer/Footer.jsx";
 import Blog from "./components/Blog/blog.jsx"; // Updated Blog import
+import Admin from "./components/Admin/Admin.jsx";
 
 const InspectionOrder = () => <VehicleInspectionForm />;
 const Location = () => <h1 className="text-3xl font-bold">Hello Location</h1>;
@@ -23,6 +24,7 @@ const App = () => {
             {/* Blog main route */}
             <Route path="/blog/*" element={<Blog />} />
             <Route path="/contact" element={<ContactForm />} />
+            <Route path="/admin" element={<Admin />} />
             <Route
               path="*"
               element={
