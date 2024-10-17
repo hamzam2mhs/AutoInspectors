@@ -22,7 +22,7 @@ const Navbar = () => {
             onClick={handleMenuClick} // Ensure the menu closes if it's open on mobile
             className="text-white text-xl font-bold tracking-wide hover:text-gray-400 transition duration-300"
           >
-            WeInspect4U
+            AutoInspectors
           </Link>
         </div>
 
