@@ -75,7 +75,7 @@ function Admin() {
     overallCondition: "Good",
     recommendations: "",
     inspectorName: "",
-    notes: {},
+    notes: {}
   });
 
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -100,6 +100,16 @@ function Admin() {
         ...formData.notes,
         [currentField]: currentNote,
       },
+    });
+    setIsModalOpen(false);
+  };
+
+  const handleDeleteNote = () => {
+    const updatedNotes = { ...formData.notes };
+    delete updatedNotes[currentField];
+    setFormData({
+      ...formData,
+      notes: updatedNotes,
     });
     setIsModalOpen(false);
   };
@@ -153,9 +163,9 @@ function Admin() {
               <button
                 type="button"
                 onClick={() => handleAddNoteClick(item)}
-                className="ml-4 bg-blue-500 text-white px-4 py-2 rounded-md"
+                className="ml-4 bg-blue-500 text-white px-4 py-1 rounded-md text-sm"
               >
-                Add Note
+                {formData.notes[item] ? "Edit Note" : "Add Note"}
               </button>
             </div>
             {formData.notes[item] && <p className="text-sm text-gray-500 mt-1">Note: {formData.notes[item]}</p>}
@@ -178,9 +188,9 @@ function Admin() {
             <button
               type="button"
               onClick={() => handleAddNoteClick("vehicleIdentificationType")}
-              className="ml-4 bg-blue-500 text-white px-4 py-2 rounded-md"
+              className="ml-4 bg-blue-500 text-white px-4 py-1 rounded-md text-sm"
             >
-              Add Note
+              {formData.notes.vehicleIdentificationType ? "Edit Note" : "Add Note"}
             </button>
           </div>
           {formData.notes.vehicleIdentificationType && <p className="text-sm text-gray-500 mt-1">Note: {formData.notes.vehicleIdentificationType}</p>}
@@ -201,9 +211,9 @@ function Admin() {
               <button
                 type="button"
                 onClick={() => handleAddNoteClick(item)}
-                className="ml-4 bg-blue-500 text-white px-4 py-2 rounded-md"
+                className="ml-4 bg-blue-500 text-white px-4 py-2 rounded-md text-sm"
               >
-                Add Note
+                {formData.notes[item] ? "Edit Note" : "Add Note"}
               </button>
             </div>
             {formData.notes[item] && <p className="text-sm text-gray-500 mt-1">Note: {formData.notes[item]}</p>}
@@ -240,9 +250,9 @@ function Admin() {
               <button
                 type="button"
                 onClick={() => handleAddNoteClick(item)}
-                className="ml-4 bg-blue-500 text-white px-4 py-2 rounded-md"
+                className="ml-4 bg-blue-500 text-white px-4 py-1 rounded-md text-sm"
               >
-                Add Note
+                {formData.notes[item] ? "Edit Note" : "Add Note"}
               </button>
             </div>
             {formData.notes[item] && <p className="text-sm text-gray-500 mt-1">Note: {formData.notes[item]}</p>}
@@ -306,13 +316,13 @@ function Admin() {
       {isModalOpen && (
         <div className="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center z-50">
           <div className="bg-white w-96 p-6 rounded-md shadow-lg">
-            <h3 className="text-lg font-bold mb-4">Add a Note</h3>
+            <h3 className="text-lg font-bold mb-4">Add/Edit Note</h3>
             <textarea
               value={currentNote}
               onChange={handleNoteChange}
               className="w-full p-2 border rounded-md mb-4"
               rows="4"
-              placeholder={`Add a note for ${currentField.replace(/([A-Z])/g, " $1")}`}
+              placeholder={`Add or edit a note for ${currentField.replace(/([A-Z])/g, " $1")}`}
             ></textarea>
             <div className="flex justify-end">
               <button
@@ -322,8 +332,14 @@ function Admin() {
                 Cancel
               </button>
               <button
+                onClick={handleDeleteNote}
+                className="bg-red-500 text-white px-4 py-2 rounded-md mr-2"
+              >
+                Delete Note
+              </button>
+              <button
                 onClick={handleSaveNote}
-                className="ml-4 bg-blue-500 text-white px-4 py-2 rounded-md"
+                className="ml-4 bg-blue-500 text-white px-4 py-1 rounded-md text-sm"
               >
                 Save Note
               </button>
