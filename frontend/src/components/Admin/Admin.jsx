@@ -1,5 +1,6 @@
 //WeInspect4U/frontend/src/components/Admin/Admin.jsx
 import React, { useState } from "react";
+import emailjs from 'emailjs-com';
 
 function Admin() {
   const [formData, setFormData] = useState({
@@ -82,6 +83,24 @@ function Admin() {
   const [currentField, setCurrentField] = useState("");
   const [currentNote, setCurrentNote] = useState("");
 
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [password, setPassword] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
+
+  const handlePasswordChange = (e) => {
+    setPassword(e.target.value);
+  };
+
+  const handlePasswordSubmit = (e) => {
+    e.preventDefault();
+    if (password === "Admin123") {
+      setIsAuthenticated(true);
+      setErrorMessage("");
+    } else {
+      setErrorMessage("Access Denied! Incorrect Password.");
+    }
+  };
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
@@ -124,9 +143,112 @@ function Admin() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(formData);
-    // Submit the form data to the server or process it as needed
+
+    const templateParams = {
+      clientFullName: formData.clientFullName,
+      clientEmail: formData.clientEmail,
+      clientPhone: formData.clientPhone,
+      clientAddress: formData.clientAddress,
+      location: formData.location,
+      preparedBy: formData.preparedBy,
+      conductedOn: formData.conductedOn,
+      vehicleIdentificationType: formData.vehicleIdentificationType,
+      vin: formData.vin,
+      licensePlate: formData.licensePlate,
+      identificationType: formData.identificationType,
+      mileage: formData.mileage,
+      brakeSystem: formData.brakeSystem,
+      parkingBrakes: formData.parkingBrakes,
+      brakeDrums: formData.brakeDrums,
+      brakeHose: formData.brakeHose,
+      lowPressureWarning: formData.lowPressureWarning,
+      fifthWheel: formData.fifthWheel,
+      pintleHooks: formData.pintleHooks,
+      towbar: formData.towbar,
+      fanBelts: formData.fanBelts,
+      oilPressure: formData.oilPressure,
+      radiator: formData.radiator,
+      battery: formData.battery,
+      exhaustSystem: formData.exhaustSystem,
+      wiringAndFuelLine: formData.wiringAndFuelLine,
+      muffler: formData.muffler,
+      fuelLeak: formData.fuelLeak,
+      fuelCap: formData.fuelCap,
+      fuelTankAttached: formData.fuelTankAttached,
+      headlights: formData.headlights,
+      brakeLights: formData.brakeLights,
+      tailLights: formData.tailLights,
+      dashLights: formData.dashLights,
+      clearanceLights: formData.clearanceLights,
+      turnIndicators: formData.turnIndicators,
+      seatBelts: formData.seatBelts,
+      fireExtinguisher: formData.fireExtinguisher,
+      flagsFlares: formData.flagsFlares,
+      decals: formData.decals,
+      spareBulbs: formData.spareBulbs,
+      cargoProtection: formData.cargoProtection,
+      liftGate: formData.liftGate,
+      steeringWheelFreePlay: formData.steeringWheelFreePlay,
+      steeringColumn: formData.steeringColumn,
+      frontAxleBeam: formData.frontAxleBeam,
+      steeringGearBox: formData.steeringGearBox,
+      pitmanArm: formData.pitmanArm,
+      powerSteering: formData.powerSteering,
+      ballSocketJoints: formData.ballSocketJoints,
+      tieRods: formData.tieRods,
+      uBolts: formData.uBolts,
+      springAssembly: formData.springAssembly,
+      tireCondition: formData.tireCondition,
+      tireAirPressure: formData.tireAirPressure,
+      chains: formData.chains,
+      wheelsRims: formData.wheelsRims,
+      lockRings: formData.lockRings,
+      fasteners: formData.fasteners,
+      welds: formData.welds,
+      windshield: formData.windshield,
+      wiperBlades: formData.wiperBlades,
+      transmissionFluid: formData.transmissionFluid,
+      clutchFreePlay: formData.clutchFreePlay,
+      heaterDefroster: formData.heaterDefroster,
+      mirrors: formData.mirrors,
+      frame: formData.frame,
+      body: formData.body,
+      otherObservations: formData.otherObservations,
+      overallCondition: formData.overallCondition,
+      recommendations: formData.recommendations,
+      inspectorName: formData.inspectorName,
+    };
+
+    emailjs.send('service_tivph1j', 'template_hda7ail', templateParams, 'vXq6coXIgPVXGoVN4')
+      .then((response) => {
+        console.log('SUCCESS!', response.status, response.text);
+        alert("Form submitted and email sent successfully!");
+      }, (error) => {
+        console.error('FAILED...', error);
+        alert("Failed to send email. Please try again.");
+      });
   };
+
+  if (!isAuthenticated) {
+    return (
+      <div className="p-8 bg-gray-100 min-h-screen flex flex-col items-center justify-center">
+        <h1 className="text-2xl font-bold mb-4">Enter Admin Password</h1>
+        <form onSubmit={handlePasswordSubmit} className="bg-white p-6 shadow-md rounded-md">
+          <input
+            type="password"
+            value={password}
+            onChange={handlePasswordChange}
+            placeholder="Enter password"
+            className="w-full p-2 mb-4 border rounded-md"
+          />
+          <button type="submit" className="bg-blue-500 text-white py-2 px-4 rounded-md">
+            Submit
+          </button>
+          {errorMessage && <p className="text-red-500 mt-2">{errorMessage}</p>}
+        </form>
+      </div>
+    );
+  }
 
   return (
     <div className="p-8 bg-gray-100 min-h-screen">
@@ -171,30 +293,6 @@ function Admin() {
             {formData.notes[item] && <p className="text-sm text-gray-500 mt-1">Note: {formData.notes[item]}</p>}
           </div>
         ))}
-
-        <div className="mb-4">
-          <label className="block text-gray-700">Vehicle Identification Type</label>
-          <div className="flex items-center">
-            <select
-              name="vehicleIdentificationType"
-              value={formData.vehicleIdentificationType}
-              onChange={handleChange}
-              className="w-full p-2 border rounded-md"
-            >
-              <option value="VIN">VIN</option>
-              <option value="License Plate #">License Plate #</option>
-              <option value="Other">Other</option>
-            </select>
-            <button
-              type="button"
-              onClick={() => handleAddNoteClick("vehicleIdentificationType")}
-              className="ml-4 bg-blue-500 text-white px-4 py-1 rounded-md text-sm"
-            >
-              {formData.notes.vehicleIdentificationType ? "Edit Note" : "Add Note"}
-            </button>
-          </div>
-          {formData.notes.vehicleIdentificationType && <p className="text-sm text-gray-500 mt-1">Note: {formData.notes.vehicleIdentificationType}</p>}
-        </div>
 
         {/* VIN and License Plate */}
         {["vin", "licensePlate", "identificationType", "mileage"].map((item) => (
