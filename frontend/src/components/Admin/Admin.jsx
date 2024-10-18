@@ -93,13 +93,16 @@ function Admin() {
 
   const handlePasswordSubmit = (e) => {
     e.preventDefault();
-    if (password === "Admin123") {
+    const adminPassword = import.meta.env.VITE_ADMIN_PASSWORD; // Accessing the password from .env
+
+    if (password === adminPassword) {
       setIsAuthenticated(true);
       setErrorMessage("");
     } else {
       setErrorMessage("Access Denied! Incorrect Password.");
     }
   };
+
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -219,7 +222,13 @@ function Admin() {
       inspectorName: formData.inspectorName,
     };
 
-    emailjs.send('service_tivph1j', 'template_hda7ail', templateParams, 'vXq6coXIgPVXGoVN4')
+    emailjs
+      .send(
+        import.meta.env.VITE_EMAILJS_SERVICE_ID,
+        import.meta.env.VITE_EMAILJS_MECHANIC_TEMPLATE_ID,
+        templateParams,
+        import.meta.env.VITE_EMAILJS_PUBLIC_KEY
+      )
       .then((response) => {
         console.log('SUCCESS!', response.status, response.text);
         alert("Form submitted and email sent successfully!");
@@ -321,15 +330,15 @@ function Admin() {
         {/* Inspection Items */}
         <h2 className="text-xl font-semibold mt-6 mb-2">Inspection Items</h2>
         {[
-          "brakeSystem", "parkingBrakes", "brakeDrums", "brakeHose", "lowPressureWarning", 
+          "brakeSystem", "parkingBrakes", "brakeDrums", "brakeHose", "lowPressureWarning",
           "fifthWheel", "pintleHooks", "towbar", "fanBelts", "oilPressure", "radiator", "battery",
           "exhaustSystem", "wiringAndFuelLine", "muffler", "fuelLeak", "fuelCap", "fuelTankAttached",
           "headlights", "brakeLights", "tailLights", "dashLights", "clearanceLights", "turnIndicators",
-          "seatBelts", "fireExtinguisher", "flagsFlares", "decals", "spareBulbs", "cargoProtection", 
-          "liftGate", "steeringWheelFreePlay", "steeringColumn", "frontAxleBeam", "steeringGearBox", 
+          "seatBelts", "fireExtinguisher", "flagsFlares", "decals", "spareBulbs", "cargoProtection",
+          "liftGate", "steeringWheelFreePlay", "steeringColumn", "frontAxleBeam", "steeringGearBox",
           "pitmanArm", "powerSteering", "ballSocketJoints", "tieRods", "uBolts", "springAssembly",
-          "tireCondition", "tireAirPressure", "chains", "wheelsRims", "lockRings", "fasteners", 
-          "welds", "windshield", "wiperBlades", "transmissionFluid", "clutchFreePlay", "heaterDefroster", 
+          "tireCondition", "tireAirPressure", "chains", "wheelsRims", "lockRings", "fasteners",
+          "welds", "windshield", "wiperBlades", "transmissionFluid", "clutchFreePlay", "heaterDefroster",
           "mirrors", "frame", "body"
         ].map((item) => (
           <div className="mb-4" key={item}>
