@@ -93,7 +93,7 @@ function Admin() {
 
   const handlePasswordSubmit = (e) => {
     e.preventDefault();
-    const adminPassword = import.meta.env.VITE_ADMIN_PASSWORD; // Accessing the password from .env
+    const adminPassword = import.meta.env.VITE_ADMIN_PW; // Accessing the password from .env
 
     if (password === adminPassword) {
       setIsAuthenticated(true);
