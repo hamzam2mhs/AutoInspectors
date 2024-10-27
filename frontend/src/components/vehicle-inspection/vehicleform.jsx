@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useJsApiLoader } from "@react-google-maps/api";
 import emailjs from "emailjs-com";
@@ -32,6 +32,11 @@ const VehicleForm = () => {
   });
 
   const navigate = useNavigate();
+
+  // **Reset the isSubmitted state when navigating to /inspection**
+  useEffect(() => {
+    setIsSubmitted(false); // Reset the form submission state
+  }, []);
 
   const sendFormDetails = (formData) => {
     // Send form data via email using EmailJS
@@ -158,7 +163,7 @@ const VehicleForm = () => {
               </form>
           )}
 
-          {/* Render the Terms and Conditions modal outside of the form */}
+          {/* Render the Terms and Conditions modal */}
           {showTerms && (
               <TermsAndConditionsModal
                   onAccept={handleAcceptTerms}
