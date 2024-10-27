@@ -20,7 +20,13 @@ const PricingPlans = () => {
               <h3 className="text-2xl font-bold mb-4 text-center uppercase">
                 Sedan
               </h3>
-              <p className="text-3xl font-bold mb-4 text-center">$150</p>
+              <p className="text-center mb-4">
+                <span className="text-xl text-gray-400 line-through mr-2">$200</span>
+                <span className="text-4xl font-bold text-yellow-400">$150</span>
+              </p>
+              <p className="text-center text-red-500 text-sm italic mb-4">
+                Limited Time Offer!
+              </p>
               <ul className="space-y-2 mb-4 flex-grow">
                 <li className="flex items-start">
                   <span className="text-blue-400 mr-2">✔️</span> Inspection for sedans
@@ -53,7 +59,13 @@ const PricingPlans = () => {
               <h3 className="text-2xl font-bold mb-4 text-center uppercase">
                 SUV
               </h3>
-              <p className="text-3xl font-bold mb-4 text-center">$180</p>
+              <p className="text-center mb-4">
+                <span className="text-xl text-gray-400 line-through mr-2">$220</span>
+                <span className="text-4xl font-bold text-yellow-400">$180</span>
+              </p>
+              <p className="text-center text-red-500 text-sm italic mb-4">
+                Limited Time Offer!
+              </p>
               <ul className="space-y-2 mb-4 flex-grow">
                 <li className="flex items-start">
                   <span className="text-blue-400 mr-2">✔️</span> Inspection for SUVs
@@ -86,7 +98,13 @@ const PricingPlans = () => {
               <h3 className="text-2xl font-bold mb-4 text-center uppercase">
                 AWD Sedan
               </h3>
-              <p className="text-3xl font-bold mb-4 text-center">$170</p>
+              <p className="text-center mb-4">
+                <span className="text-xl text-gray-400 line-through mr-2">$210</span>
+                <span className="text-4xl font-bold text-yellow-400">$170</span>
+              </p>
+              <p className="text-center text-red-500 text-sm italic mb-4">
+                Limited Time Offer!
+              </p>
               <ul className="space-y-2 mb-4 flex-grow">
                 <li className="flex items-start">
                   <span className="text-blue-400 mr-2">✔️</span> Inspection for AWD Sedans
@@ -122,7 +140,13 @@ const PricingPlans = () => {
               <h3 className="text-2xl font-bold mb-4 text-center uppercase">
                 AWD SUV
               </h3>
-              <p className="text-3xl font-bold mb-4 text-center">$200</p>
+              <p className="text-center mb-4">
+                <span className="text-xl text-gray-400 line-through mr-2">$250</span>
+                <span className="text-4xl font-bold text-yellow-400">$200</span>
+              </p>
+              <p className="text-center text-red-500 text-sm italic mb-4">
+                Limited Time Offer!
+              </p>
               <ul className="space-y-2 mb-4 flex-grow">
                 <li className="flex items-start">
                   <span className="text-blue-400 mr-2">✔️</span> Inspection for AWD SUVs
