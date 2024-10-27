@@ -158,7 +158,7 @@ const VehicleForm = () => {
               </form>
           )}
 
-          {/* Terms and Conditions Modal */}
+          {/* Render the Terms and Conditions modal outside of the form */}
           {showTerms && (
               <TermsAndConditionsModal
                   onAccept={handleAcceptTerms}
