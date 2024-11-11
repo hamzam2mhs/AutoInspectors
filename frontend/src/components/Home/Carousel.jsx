@@ -1,6 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import carImage from "../../assets/HomeImages/Car.jpg"; // Adjust the path based on your folder structure
+import carImage from "../../assets/HomeImages/Car.webp"; // Adjust the path based on your folder structure
 
 const Carousel = () => {
   const navigate = useNavigate();
@@ -27,7 +27,8 @@ const Carousel = () => {
           Don’t Buy Trouble – Get It Inspected First!
         </h1>
         <p className="text-lg md:text-xl mb-8 max-w-2xl leading-relaxed transition-opacity duration-1000 ease-out">
-          Get your pre-purchase car inspection today with AutoInspectors. We’re here to ensure you don’t drive off with trouble.
+          Get your pre-purchase car inspection today with AutoInspectors. We’re
+          here to ensure you don’t drive off with trouble.
         </p>
         <button
           onClick={handleButtonClick}

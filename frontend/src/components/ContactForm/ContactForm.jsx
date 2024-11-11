@@ -1,16 +1,16 @@
-import React, { useState } from 'react';
-import emailjs from 'emailjs-com';
-import carImage from "../../assets/HomeImages/Nangma.jpg"; // Adjust the path as needed
+import React, { useState } from "react";
+import emailjs from "emailjs-com";
+import carImage from "../../assets/HomeImages/Nangma.webp"; // Adjust the path as needed
 
 const ContactForm = () => {
   const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    message: '',
+    name: "",
+    email: "",
+    message: "",
   });
 
-  const [notification, setNotification] = useState('');
-  const [status, setStatus] = useState('');
+  const [notification, setNotification] = useState("");
+  const [status, setStatus] = useState("");
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -21,7 +21,7 @@ const ContactForm = () => {
 
     const emailData = {
       from_name: formData.name,
-      to_name: 'Recipient Name',
+      to_name: "Recipient Name",
       message: formData.message,
       from_email: formData.email,
     };
@@ -35,13 +35,13 @@ const ContactForm = () => {
       )
       .then(
         (result) => {
-          setNotification('Message sent successfully!');
-          setStatus('success');
-          setFormData({ name: '', email: '', message: '' });
+          setNotification("Message sent successfully!");
+          setStatus("success");
+          setFormData({ name: "", email: "", message: "" });
         },
         (error) => {
-          setNotification('Failed to send the message. Please try again.');
-          setStatus('error');
+          setNotification("Failed to send the message. Please try again.");
+          setStatus("error");
         }
       );
   };
@@ -57,10 +57,15 @@ const ContactForm = () => {
         onSubmit={handleSubmit}
         className="w-full max-w-lg bg-gray-800 bg-opacity-90 shadow-lg rounded px-8 py-6"
       >
-        <h2 className="text-3xl font-bold mb-6 text-center text-white">Contact Us</h2>
+        <h2 className="text-3xl font-bold mb-6 text-center text-white">
+          Contact Us
+        </h2>
 
         <div className="mb-4">
-          <label className="block text-gray-300 text-sm font-semibold mb-2" htmlFor="name">
+          <label
+            className="block text-gray-300 text-sm font-semibold mb-2"
+            htmlFor="name"
+          >
             Name
           </label>
           <input
@@ -75,7 +80,10 @@ const ContactForm = () => {
         </div>
 
         <div className="mb-4">
-          <label className="block text-gray-300 text-sm font-semibold mb-2" htmlFor="email">
+          <label
+            className="block text-gray-300 text-sm font-semibold mb-2"
+            htmlFor="email"
+          >
             Email
           </label>
           <input
@@ -90,7 +98,10 @@ const ContactForm = () => {
         </div>
 
         <div className="mb-6">
-          <label className="block text-gray-300 text-sm font-semibold mb-2" htmlFor="message">
+          <label
+            className="block text-gray-300 text-sm font-semibold mb-2"
+            htmlFor="message"
+          >
             Message
           </label>
           <textarea
@@ -115,7 +126,7 @@ const ContactForm = () => {
         {notification && (
           <div
             className={`mt-4 p-2 text-center font-semibold ${
-              status === 'success' ? 'text-green-400' : 'text-red-400'
+              status === "success" ? "text-green-400" : "text-red-400"
             }`}
           >
             {notification}

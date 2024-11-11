@@ -1,5 +1,5 @@
 import React from "react";
-import backgroundImage from "../../assets/HomeImages/inpection.jpg"; // Adjust the path based on your folder structure
+import backgroundImage from "../../assets/HomeImages/inpection.webp"; // Adjust the path based on your folder structure
 import { useNavigate } from "react-router-dom";
 
 const Services = () => {
