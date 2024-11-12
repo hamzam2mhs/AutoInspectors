@@ -6,12 +6,12 @@ import PricingPlans from "./PricingPlans";
 
 const Home = () => {
   return (
-    <div>
+    <div className="space-y-10">
+      {" "}
+      {/* Adjust the value for desired spacing */}
       <Carousel />
-      <About />
       <Services />
       <PricingPlans />
-
     </div>
   );
 };
