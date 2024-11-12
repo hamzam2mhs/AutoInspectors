@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useJsApiLoader } from "@react-google-maps/api";
 import emailjs from "emailjs-com";
-import backgroundImage from "../../assets/FormImages/inspectionBackground.webp";
+import backgroundImage from "../../assets/FormImages/inspection-order.jpg";
 
 // Import subcomponents
 import VehicleMakeSelect from "./VehicleMakeSelect";

@@ -1,6 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import carImage from "../../assets/HomeImages/Car.webp"; // Ensure the path is correct
+import carImage from "../../assets/HomeImages/corosol.jpg"; // Ensure the path is correct
 
 const Carousel = () => {
   const navigate = useNavigate();
@@ -16,7 +16,8 @@ const Carousel = () => {
         src={carImage}
         alt="Car background"
         className="absolute inset-0 w-full h-full object-cover"
-        loading="eager" // Ensures it loads quickly
+        style={{ objectPosition: "center -20px" }} // Adjust -20px as needed
+        loading="eager"
       />
 
       {/* Refined Gradient Overlay */}

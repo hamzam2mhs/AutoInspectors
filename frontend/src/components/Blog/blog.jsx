@@ -2,7 +2,7 @@ import React from "react";
 import { Routes, Route } from "react-router-dom";
 import BlogList from "./BlogList.jsx"; // Blog list component showing blog cards
 import BlogPost from "./BlogPost.jsx"; // Blog post component for full post
-import blogImage from "../../assets/BlogImages/blogimage.webp"; // Importing the image
+import blogImage from "../../assets/BlogImages/blog.jpg"; // Importing the image
 
 const Blog = () => {
   return (
