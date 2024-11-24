@@ -16,17 +16,14 @@ const PricingPlans = () => {
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
             {/* Sedan Plan */}
-            <div className="bg-gray-800 text-white p-6 rounded-lg shadow-lg flex flex-col">
-              <h3 className="text-2xl font-bold mb-4 text-center uppercase">
-                Sedan
-              </h3>
+            <div
+                className="bg-gray-800 text-white p-6 rounded-lg shadow-lg flex flex-col hover:shadow-lg transition transform hover:scale-105 duration-300 ease-out">
+              <h3 className="text-2xl font-bold mb-4 text-center uppercase">Sedan</h3>
               <p className="text-center mb-4">
                 <span className="text-xl text-gray-400 line-through mr-2">$200</span>
                 <span className="text-4xl font-bold text-yellow-400">$150</span>
               </p>
-              <p className="text-center text-red-500 text-sm italic mb-4">
-                Limited Time Offer!
-              </p>
+              <p className="text-center text-red-500 text-sm italic mb-4">Limited Time Offer!</p>
               <ul className="space-y-2 mb-4 flex-grow">
                 <li className="flex items-start">
                   <span className="text-blue-400 mr-2">✔️</span> Inspection for sedans
@@ -55,17 +52,14 @@ const PricingPlans = () => {
             </div>
 
             {/* SUV Plan */}
-            <div className="bg-gray-800 text-white p-6 rounded-lg shadow-lg flex flex-col">
-              <h3 className="text-2xl font-bold mb-4 text-center uppercase">
-                SUV
-              </h3>
+            <div
+                className="bg-gray-800 text-white p-6 rounded-lg shadow-lg flex flex-col hover:shadow-lg transition transform hover:scale-105 duration-300 ease-out">
+              <h3 className="text-2xl font-bold mb-4 text-center uppercase">SUV</h3>
               <p className="text-center mb-4">
                 <span className="text-xl text-gray-400 line-through mr-2">$220</span>
                 <span className="text-4xl font-bold text-yellow-400">$180</span>
               </p>
-              <p className="text-center text-red-500 text-sm italic mb-4">
-                Limited Time Offer!
-              </p>
+              <p className="text-center text-red-500 text-sm italic mb-4">Limited Time Offer!</p>
               <ul className="space-y-2 mb-4 flex-grow">
                 <li className="flex items-start">
                   <span className="text-blue-400 mr-2">✔️</span> Inspection for SUVs
@@ -94,17 +88,14 @@ const PricingPlans = () => {
             </div>
 
             {/* AWD Sedan Plan */}
-            <div className="bg-gray-800 text-white p-6 rounded-lg shadow-lg flex flex-col">
-              <h3 className="text-2xl font-bold mb-4 text-center uppercase">
-                AWD Sedan
-              </h3>
+            <div
+                className="bg-gray-800 text-white p-6 rounded-lg shadow-lg flex flex-col hover:shadow-lg transition transform hover:scale-105 duration-300 ease-out">
+              <h3 className="text-2xl font-bold mb-4 text-center uppercase">AWD Sedan</h3>
               <p className="text-center mb-4">
                 <span className="text-xl text-gray-400 line-through mr-2">$210</span>
                 <span className="text-4xl font-bold text-yellow-400">$170</span>
               </p>
-              <p className="text-center text-red-500 text-sm italic mb-4">
-                Limited Time Offer!
-              </p>
+              <p className="text-center text-red-500 text-sm italic mb-4">Limited Time Offer!</p>
               <ul className="space-y-2 mb-4 flex-grow">
                 <li className="flex items-start">
                   <span className="text-blue-400 mr-2">✔️</span> Inspection for AWD Sedans
@@ -136,17 +127,14 @@ const PricingPlans = () => {
             </div>
 
             {/* AWD SUV Plan */}
-            <div className="bg-gray-800 text-white p-6 rounded-lg shadow-lg flex flex-col">
-              <h3 className="text-2xl font-bold mb-4 text-center uppercase">
-                AWD SUV
-              </h3>
+            <div
+                className="bg-gray-800 text-white p-6 rounded-lg shadow-lg flex flex-col hover:shadow-lg transition transform hover:scale-105 duration-300 ease-out">
+              <h3 className="text-2xl font-bold mb-4 text-center uppercase">AWD SUV</h3>
               <p className="text-center mb-4">
                 <span className="text-xl text-gray-400 line-through mr-2">$250</span>
                 <span className="text-4xl font-bold text-yellow-400">$200</span>
               </p>
-              <p className="text-center text-red-500 text-sm italic mb-4">
-                Limited Time Offer!
-              </p>
+              <p className="text-center text-red-500 text-sm italic mb-4">Limited Time Offer!</p>
               <ul className="space-y-2 mb-4 flex-grow">
                 <li className="flex items-start">
                   <span className="text-blue-400 mr-2">✔️</span> Inspection for AWD SUVs
