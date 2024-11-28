@@ -10,7 +10,7 @@ const Footer = () => {
           <h4 className="text-2xl font-bold">AutoInspectors</h4>
           <p className="text-lg mt-2">Winnipeg, MB, Canada</p>
           <p className="text-sm mt-1">
-            &copy; {new Date().getFullYear()} WeInspect4U. All rights reserved.
+            &copy; {new Date().getFullYear()} AutoInspectors. All rights reserved.
           </p>
         </div>
         <div className="text-center md:text-left">
