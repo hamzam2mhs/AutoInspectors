@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import emailjs from "emailjs-com";
+import emailjs from "@emailjs/browser";
 import carImage from "../../assets/HomeImages/contact-usss.jpg"; // Adjust the path as needed
 
 const ContactForm = () => {

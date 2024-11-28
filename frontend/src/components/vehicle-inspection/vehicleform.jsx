@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useJsApiLoader } from "@react-google-maps/api";
-import emailjs from "emailjs-com";
+import emailjs from "@emailjs/browser";
 import backgroundImage from "../../assets/FormImages/inspection-order.jpg";
 
 // Import subcomponents
