@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useJsApiLoader } from "@react-google-maps/api";
 import emailjs from "emailjs-com";
 import backgroundImage from "../../assets/FormImages/inspection-order.jpg";
@@ -31,7 +31,7 @@ const VehicleForm = () => {
   const [vehiclePrice, setVehiclePrice] = useState(vehiclePrices["Sedan"]); // Default price
 
   const { addToCart } = useCart(); // Access cart context to add items to the cart
-
+  const location = useLocation(); // Access location for pre-selected type
   const { isLoaded } = useJsApiLoader({
     googleMapsApiKey: import.meta.env.VITE_GOOGLE_MAPS_API_KEY,
     libraries: ["places"],
@@ -39,10 +39,17 @@ const VehicleForm = () => {
 
   const navigate = useNavigate();
 
-  // **Reset the isSubmitted state when navigating to /inspection**
+  // **Check for pre-selected vehicle type from location state**
   useEffect(() => {
+    if (location.state?.vehicleType) {
+      console.log("Vehicle type received:", location.state.vehicleType); // Debug log
+      const type = location.state.vehicleType;
+      setVehicleType(type);
+      setVehiclePrice(vehiclePrices[type]);
+    }
     setIsSubmitted(false); // Reset the form submission state
-  }, []);
+  }, [location.state]);
+
 
   const sendFormDetails = (formData) => {
     // Send form data via email using EmailJS
@@ -218,7 +225,7 @@ const VehicleForm = () => {
           )}
         </div>
       </div>
-  )
+  );
 };
 
 export default VehicleForm;
