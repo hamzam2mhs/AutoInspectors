@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import emailjs from "emailjs-com";
+import emailjs from "@emailjs/browser";
 import { useNavigate, useLocation } from "react-router-dom"; // Import useNavigate and useLocation
 import carImage from "../../assets/HomeImages/admin.jpg";
 
