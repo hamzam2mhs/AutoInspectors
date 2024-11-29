@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import carInspection from "../../assets/HomeImages/inspectionpicture.svg";
 import { FaShoppingCart } from "react-icons/fa"; // Import cart icon
@@ -8,8 +8,11 @@ import { useCart } from "../../contexts/CartContext"; // Cart Context
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false); // Mobile menu toggle
   const [isCartOpen, setIsCartOpen] = useState(false); // Cart visibility toggle
+  const [isVisible, setIsVisible] = useState(true); // Navbar visibility toggle
   const { cartItems } = useCart(); // Access cart items from context
   const navigate = useNavigate();
+
+  let lastScrollY = window.scrollY;
 
   const toggleMenu = () => setIsOpen(!isOpen); // Toggle mobile menu
   const toggleCart = () => setIsCartOpen((prev) => !prev); // Toggle cart visibility
@@ -20,8 +23,31 @@ const Navbar = () => {
     navigate("/admin", { state: { resetAuth: true } }); // Navigate to admin page
   };
 
+  // Handle navbar visibility on scroll
+  const handleScroll = () => {
+    if (window.scrollY > lastScrollY && window.scrollY > 50) {
+      // Scrolling down
+      setIsVisible(false);
+    } else {
+      // Scrolling up
+      setIsVisible(true);
+    }
+    lastScrollY = window.scrollY;
+  };
+
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
   return (
-      <nav className="bg-gray-800 p-4 shadow-lg sticky top-0 z-50">
+      <nav
+          className={`bg-gray-800 p-4 shadow-lg fixed top-0 w-full z-50 transition-transform duration-300 ${
+              isVisible ? "translate-y-0" : "-translate-y-full"
+          }`}
+      >
         <div className="container mx-auto flex justify-between items-center">
           {/* Logo with Image */}
           <div className="flex items-center space-x-2">
@@ -107,8 +133,8 @@ const Navbar = () => {
               <FaShoppingCart size={18} />
               {cartItems.length > 0 && (
                   <span className="absolute -top-1 -right-1 bg-red-600 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
-                {cartItems.length}
-              </span>
+                                {cartItems.length}
+                            </span>
               )}
             </button>
           </div>
