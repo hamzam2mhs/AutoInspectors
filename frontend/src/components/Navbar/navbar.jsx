@@ -141,7 +141,11 @@ const Navbar = () => {
 
           {/* Mobile Menu Icon */}
           <div className="lg:hidden ml-4">
-            <button onClick={toggleMenu} className="text-white hover:text-gray-400 focus:outline-none">
+            <button
+                onClick={toggleMenu}
+                className="text-white hover:text-gray-400 focus:outline-none"
+                aria-label="menu"
+            >
               <svg
                   className="h-6 w-6"
                   xmlns="http://www.w3.org/2000/svg"
@@ -158,6 +162,7 @@ const Navbar = () => {
               </svg>
             </button>
           </div>
+
         </div>
 
         {/* Cart Dropdown */}
