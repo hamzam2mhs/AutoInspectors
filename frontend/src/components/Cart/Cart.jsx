@@ -14,17 +14,19 @@ const Cart = ({ isCartOpen, onClose }) => {
         return null;
     }
 
-    // Calculate the subtotal, including add-on prices
+    // Calculate the subtotal
     const subtotal = cartItems.reduce((total, item) => total + item.price, 0);
 
     const handleCheckout = () => {
-        navigate("/payment", {
-            state: {
-                cartItems,
-                subtotal,
-            },
-        });
-        onClose(); // Close the cart after navigating
+        if (cartItems.length > 0) {
+            navigate("/payment", {
+                state: {
+                    cartItems,
+                    subtotal,
+                },
+            });
+            onClose(); // Close the cart after navigating
+        }
     };
 
     return (
@@ -65,25 +67,27 @@ const Cart = ({ isCartOpen, onClose }) => {
                                         {/* Vehicle Type */}
                                         <h3 className="font-medium text-lg">{item.name}</h3>
                                         {/* Price */}
-                                        <p className="text-sm text-gray-400">${item.price.toFixed(2)}</p>
+                                        <p className="text-sm text-gray-400">${item.price}</p>
                                     </div>
                                     {/* Details: Year, Make, Model */}
                                     <div className="text-sm text-gray-400 mt-1">
                                         {item.details.year} {item.details.make} {item.details.model}
+                                        {item.details.addons && (
+                                            <div>
+                                                {Object.keys(item.details.addons).map(
+                                                    (addon, i) =>
+                                                        item.details.addons[addon] && (
+                                                            <p key={i}>
+                                                                {addon}: $
+                                                                {addon === "carfax"
+                                                                    ? "25.99"
+                                                                    : "20.99"}
+                                                            </p>
+                                                        )
+                                                )}
+                                            </div>
+                                        )}
                                     </div>
-                                    {/* Add-ons */}
-                                    {item.details.addons && item.details.addons.length > 0 && (
-                                        <div className="mt-2">
-                                            <p className="text-sm text-yellow-400 font-semibold">Add-ons:</p>
-                                            <ul className="text-sm text-gray-400 mt-1 space-y-1">
-                                                {item.details.addons.map((addon, idx) => (
-                                                    <li key={idx}>
-                                                        {addon.name} - ${addon.price.toFixed(2)}
-                                                    </li>
-                                                ))}
-                                            </ul>
-                                        </div>
-                                    )}
                                     {/* Remove Button */}
                                     <div className="flex justify-end mt-2">
                                         <button
@@ -107,7 +111,12 @@ const Cart = ({ isCartOpen, onClose }) => {
                     </div>
                     <button
                         onClick={handleCheckout}
-                        className="w-full mt-4 bg-yellow-500 text-black py-2 rounded-lg hover:bg-yellow-600"
+                        disabled={cartItems.length === 0}
+                        className={`w-full mt-4 py-2 rounded-lg ${
+                            cartItems.length === 0
+                                ? "bg-gray-600 text-gray-400 cursor-not-allowed"
+                                : "bg-yellow-500 text-black hover:bg-yellow-600"
+                        }`}
                     >
                         Checkout
                     </button>
