@@ -72,19 +72,14 @@ const Cart = ({ isCartOpen, onClose }) => {
                                     {/* Details: Year, Make, Model */}
                                     <div className="text-sm text-gray-400 mt-1">
                                         {item.details.year} {item.details.make} {item.details.model}
-                                        {item.details.addons && (
-                                            <div>
-                                                {Object.keys(item.details.addons).map(
-                                                    (addon, i) =>
-                                                        item.details.addons[addon] && (
-                                                            <p key={i}>
-                                                                {addon}: $
-                                                                {addon === "carfax"
-                                                                    ? "25.99"
-                                                                    : "20.99"}
-                                                            </p>
-                                                        )
-                                                )}
+                                        {item.details.addons && item.details.addons.length > 0 && (
+                                            <div className="mt-2">
+                                                <p className="text-sm font-bold">Add-ons:</p>
+                                                {item.details.addons.map((addon, i) => (
+                                                    <p key={i} className="text-sm">
+                                                        {addon.name}: ${addon.price}
+                                                    </p>
+                                                ))}
                                             </div>
                                         )}
                                     </div>
