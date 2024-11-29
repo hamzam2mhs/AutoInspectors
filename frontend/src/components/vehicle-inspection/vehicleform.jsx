@@ -146,7 +146,7 @@ const VehicleForm = () => {
               >
                 {Object.keys(vehiclePrices).map((type) => (
                     <option key={type} value={type}>
-                      {type} - ${vehiclePrices[type]}
+                      {type}
                     </option>
                 ))}
               </select>
