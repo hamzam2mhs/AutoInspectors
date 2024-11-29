@@ -1,26 +1,35 @@
 import express from "express";
 import cors from "cors";
-import bodyParser from "body-parser";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 const app = express();
-const PORT = 5000;
-
-// Enable CORS for all routes
-app.use(cors());
 
 // Middleware
-app.use(bodyParser.json());
+app.use(cors());
+app.use(express.json());
 
-// POST route for handling inspection form data
-app.post("/api/inspections", (req, res) => {
-  const formData = req.body;
-  console.log("Form data received:", formData);
+// Root route for testing
+app.get("/", (req, res) => {
+    res.send("<h1>Welcome to AutoInspectors API</h1><p>The server is running successfully. </p>");
+    console.log("VITE_HELCIM_API_TOKEN:", process.env.VITE_HELCIM_API_TOKEN);
 
-  // Here you can add logic to store the form data in a database
-  res.json({ message: "Inspection data received successfully!" });
 });
 
-app.listen(PORT, () => {
-  console.log(Server running on http://localhost:${PORT});
-      });
+// Example API endpoint
+app.post("/api/payment", async (req, res) => {
+    try {
+        // Example response for payment processing
+        res.status(200).json({ message: "Payment processed successfully" });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: "Payment processing failed" });
+    }
+});
 
+// Port
+const PORT = 3000;
+app.listen(PORT, () => {
+    console.log(`Server running at http://localhost:${PORT}`);
+});

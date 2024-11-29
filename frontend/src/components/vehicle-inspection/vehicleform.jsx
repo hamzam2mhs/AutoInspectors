@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useJsApiLoader } from "@react-google-maps/api";
-import emailjs from "@emailjs/browser";
 import backgroundImage from "../../assets/FormImages/inspection-order.jpg";
 
 // Import subcomponents
@@ -24,7 +23,6 @@ const VehicleForm = () => {
   const [address, setAddress] = useState("");
   const [addons, setAddons] = useState({ carfax: false, verbalReport: false });
   const [isBuyer, setIsBuyer] = useState(false); // State for buyer checkbox
-  const [isSubmitted, setIsSubmitted] = useState(false); // State for submission
   const [showTerms, setShowTerms] = useState(false); // State for terms and conditions modal
   const [formData, setFormData] = useState(null); // To store form data for later submission
   const [vehicleType, setVehicleType] = useState("Sedan"); // Default type
@@ -39,38 +37,14 @@ const VehicleForm = () => {
 
   const navigate = useNavigate();
 
-  // **Check for pre-selected vehicle type from location state**
+  // Check for pre-selected vehicle type from location state
   useEffect(() => {
     if (location.state?.vehicleType) {
-      console.log("Vehicle type received:", location.state.vehicleType); // Debug log
       const type = location.state.vehicleType;
       setVehicleType(type);
       setVehiclePrice(vehiclePrices[type]);
     }
-    setIsSubmitted(false); // Reset the form submission state
   }, [location.state]);
-
-
-  const sendFormDetails = (formData) => {
-    // Send form data via email using EmailJS
-    emailjs
-        .send(
-            "service_8kk6fug", // Replace with your Service ID
-            "template_r94velc", // Replace with your Template ID
-            formData,
-            "vdmHT32R3PRC5Ei7c" // Replace with your Public Key
-        )
-        .then(
-            (result) => {
-              console.log("Email successfully sent!", result.text);
-              setIsSubmitted(true); // Set submission success
-              setTimeout(() => navigate("/inspection"), 2000); // Redirect after 2 seconds
-            },
-            (error) => {
-              console.error("Error sending email:", error.text);
-            }
-        );
-  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -100,24 +74,38 @@ const VehicleForm = () => {
   const handleAcceptTerms = () => {
     setShowTerms(false); // Close the modal after accepting terms
 
+    // Calculate the total add-on prices
+    const addonsTotal =
+        (addons.carfax ? 25.99 : 0) +
+        (addons.verbalReport ? 20.99 : 0);
+
     // Add the item to the cart
     addToCart({
       id: Date.now(),
       name: vehicleType,
-      price: vehiclePrice,
+      price: vehiclePrice + addonsTotal, // Add-ons included in total price
       details: {
         year: vehicleYear,
         make: selectedMake,
         model: selectedModel,
-        addons,
+        addons: [
+          addons.carfax && { name: "CARFAX Vehicle History Report", price: 25.99 },
+          addons.verbalReport && { name: "Verbal Vehicle Assessment Report", price: 20.99 },
+        ].filter(Boolean), // Remove null values
       },
     });
 
-    // Send the form details
-    if (formData) {
-      sendFormDetails(formData);
-    }
+    // Reset the form
+    setSelectedMake("");
+    setSelectedModel("");
+    setVehicleYear("");
+    setSellerName("");
+    setContactNumber("");
+    setAddress("");
+    setAddons({ carfax: false, verbalReport: false });
+    setIsBuyer(false);
   };
+
 
   if (!isLoaded) {
     return <div>Loading Google Maps...</div>;
@@ -131,90 +119,78 @@ const VehicleForm = () => {
             className="absolute inset-0 w-full h-full object-cover z-0"
         />
         <div className="absolute inset-0 flex justify-center items-center z-10 bg-black bg-opacity-60">
-          {isSubmitted ? (
-              <div className="bg-white bg-opacity-90 p-8 max-w-3xl w-full shadow-xl rounded-lg text-center">
-                <h1 className="text-3xl font-bold text-gray-800 mb-4">
-                  Thank You!
-                </h1>
-                <p className="text-lg text-gray-700">
-                  Your inspection request has been submitted successfully. You will
-                  be contacted soon.
-                </p>
-              </div>
-          ) : (
-              <form
-                  className="bg-white bg-opacity-90 p-10 max-w-3xl w-full shadow-2xl rounded-lg space-y-6 text-gray-800"
-                  onSubmit={handleSubmit}
+          <form
+              className="bg-white bg-opacity-90 p-10 max-w-3xl w-full shadow-2xl rounded-lg space-y-6 text-gray-800"
+              onSubmit={handleSubmit}
+          >
+            <h1 className="text-3xl font-extrabold text-center text-gray-800 mb-6">
+              Order Vehicle Inspection
+            </h1>
+
+            {/* Vehicle Type Dropdown */}
+            <div className="mb-6">
+              <label
+                  htmlFor="vehicleType"
+                  className="block text-lg font-medium text-gray-700 mb-2"
               >
-                <h1 className="text-3xl font-extrabold text-center text-gray-800 mb-6">
-                  Order Vehicle Inspection
-                </h1>
+                Select Vehicle Type:
+              </label>
+              <select
+                  id="vehicleType"
+                  value={vehicleType}
+                  onChange={(e) => {
+                    setVehicleType(e.target.value);
+                    setVehiclePrice(vehiclePrices[e.target.value]);
+                  }}
+                  className="block w-full p-3 border border-gray-300 rounded-md"
+              >
+                {Object.keys(vehiclePrices).map((type) => (
+                    <option key={type} value={type}>
+                      {type} - ${vehiclePrices[type]}
+                    </option>
+                ))}
+              </select>
+            </div>
 
-                {/* Vehicle Type Dropdown */}
-                <div className="mb-6">
-                  <label
-                      htmlFor="vehicleType"
-                      className="block text-lg font-medium text-gray-700 mb-2"
-                  >
-                    Select Vehicle Type:
-                  </label>
-                  <select
-                      id="vehicleType"
-                      value={vehicleType}
-                      onChange={(e) => {
-                        setVehicleType(e.target.value);
-                        setVehiclePrice(vehiclePrices[e.target.value]);
-                      }}
-                      className="block w-full p-3 border border-gray-300 rounded-md"
-                  >
-                    {Object.keys(vehiclePrices).map((type) => (
-                        <option key={type} value={type}>
-                          {type} - ${vehiclePrices[type]}
-                        </option>
-                    ))}
-                  </select>
-                </div>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <VehicleYearSelect
+                  vehicleYear={vehicleYear}
+                  setVehicleYear={setVehicleYear}
+              />
+              <VehicleMakeSelect
+                  selectedMake={selectedMake}
+                  setSelectedMake={setSelectedMake}
+                  setSelectedModel={setSelectedModel}
+              />
+              <VehicleModelSelect
+                  selectedModel={selectedModel}
+                  setSelectedModel={setSelectedModel}
+                  selectedMake={selectedMake}
+              />
+            </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                  <VehicleYearSelect
-                      vehicleYear={vehicleYear}
-                      setVehicleYear={setVehicleYear}
-                  />
-                  <VehicleMakeSelect
-                      selectedMake={selectedMake}
-                      setSelectedMake={setSelectedMake}
-                      setSelectedModel={setSelectedModel}
-                  />
-                  <VehicleModelSelect
-                      selectedModel={selectedModel}
-                      setSelectedModel={setSelectedModel}
-                      selectedMake={selectedMake}
-                  />
-                </div>
+            <SellerInformation
+                sellerName={sellerName}
+                setSellerName={setSellerName}
+                contactNumber={contactNumber}
+                setContactNumber={setContactNumber}
+                isBuyer={isBuyer}
+                setIsBuyer={setIsBuyer}
+            />
 
-                <SellerInformation
-                    sellerName={sellerName}
-                    setSellerName={setSellerName}
-                    contactNumber={contactNumber}
-                    setContactNumber={setContactNumber}
-                    isBuyer={isBuyer}
-                    setIsBuyer={setIsBuyer}
-                />
+            <AddressInput address={address} setAddress={setAddress} />
 
-                <AddressInput address={address} setAddress={setAddress} />
+            <AddonsSelect addons={addons} setAddons={setAddons} />
 
-                <AddonsSelect addons={addons} setAddons={setAddons} />
-
-                <div className="text-center mt-8">
-                  <button
-                      type="submit"
-                      className="w-full px-8 py-4 bg-gradient-to-r from-yellow-400 to-yellow-600 text-black font-semibold rounded-lg shadow-lg hover:from-yellow-500 hover:to-yellow-700 transition transform hover:scale-105 duration-300 ease-out"
-                  >
-                    Submit Inspection Request
-                  </button>
-                </div>
-              </form>
-          )}
+            <div className="text-center mt-8">
+              <button
+                  type="submit"
+                  className="w-full px-8 py-4 bg-gradient-to-r from-yellow-400 to-yellow-600 text-black font-semibold rounded-lg shadow-lg hover:from-yellow-500 hover:to-yellow-700 transition transform hover:scale-105 duration-300 ease-out"
+              >
+                Submit Inspection Request
+              </button>
+            </div>
+          </form>
 
           {/* Render the Terms and Conditions modal */}
           {showTerms && (

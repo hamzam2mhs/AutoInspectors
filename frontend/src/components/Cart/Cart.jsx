@@ -1,10 +1,12 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import { useCart } from "../../contexts/CartContext";
 import { Dialog } from "@headlessui/react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 
 const Cart = ({ isCartOpen, onClose }) => {
     const { cartItems, removeFromCart } = useCart();
+    const navigate = useNavigate();
 
     // Ensure the onClose prop is valid
     if (typeof onClose !== "function") {
@@ -12,8 +14,18 @@ const Cart = ({ isCartOpen, onClose }) => {
         return null;
     }
 
-    // Calculate the subtotal
+    // Calculate the subtotal, including add-on prices
     const subtotal = cartItems.reduce((total, item) => total + item.price, 0);
+
+    const handleCheckout = () => {
+        navigate("/payment", {
+            state: {
+                cartItems,
+                subtotal,
+            },
+        });
+        onClose(); // Close the cart after navigating
+    };
 
     return (
         <Dialog
@@ -53,12 +65,25 @@ const Cart = ({ isCartOpen, onClose }) => {
                                         {/* Vehicle Type */}
                                         <h3 className="font-medium text-lg">{item.name}</h3>
                                         {/* Price */}
-                                        <p className="text-sm text-gray-400">${item.price}</p>
+                                        <p className="text-sm text-gray-400">${item.price.toFixed(2)}</p>
                                     </div>
                                     {/* Details: Year, Make, Model */}
                                     <div className="text-sm text-gray-400 mt-1">
                                         {item.details.year} {item.details.make} {item.details.model}
                                     </div>
+                                    {/* Add-ons */}
+                                    {item.details.addons && item.details.addons.length > 0 && (
+                                        <div className="mt-2">
+                                            <p className="text-sm text-yellow-400 font-semibold">Add-ons:</p>
+                                            <ul className="text-sm text-gray-400 mt-1 space-y-1">
+                                                {item.details.addons.map((addon, idx) => (
+                                                    <li key={idx}>
+                                                        {addon.name} - ${addon.price.toFixed(2)}
+                                                    </li>
+                                                ))}
+                                            </ul>
+                                        </div>
+                                    )}
                                     {/* Remove Button */}
                                     <div className="flex justify-end mt-2">
                                         <button
@@ -80,7 +105,10 @@ const Cart = ({ isCartOpen, onClose }) => {
                         <span>Subtotal (CAD)</span>
                         <span>${subtotal.toFixed(2)}</span>
                     </div>
-                    <button className="w-full mt-4 bg-yellow-500 text-black py-2 rounded-lg hover:bg-yellow-600">
+                    <button
+                        onClick={handleCheckout}
+                        className="w-full mt-4 bg-yellow-500 text-black py-2 rounded-lg hover:bg-yellow-600"
+                    >
                         Checkout
                     </button>
                 </div>
