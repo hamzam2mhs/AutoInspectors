@@ -106,33 +106,29 @@ const VehicleForm = () => {
     setIsBuyer(false);
   };
 
-
   if (!isLoaded) {
     return <div>Loading Google Maps...</div>;
   }
 
   return (
-      <div className="relative w-full h-screen bg-gray-200">
+      <div className="relative w-full min-h-screen bg-gray-100">
         <img
             src={backgroundImage}
             alt="Background"
             className="absolute inset-0 w-full h-full object-cover z-0"
         />
-        <div className="absolute inset-0 flex justify-center items-center z-10 bg-black bg-opacity-60">
+        <div className="absolute inset-0 flex justify-center items-center z-10 bg-black bg-opacity-60 p-4">
           <form
-              className="bg-white bg-opacity-90 p-10 max-w-3xl w-full shadow-2xl rounded-lg space-y-6 text-gray-800"
+              className="bg-white bg-opacity-90 p-6 max-w-2xl w-full shadow-xl rounded-lg space-y-6 text-gray-800"
               onSubmit={handleSubmit}
           >
-            <h1 className="text-3xl font-extrabold text-center text-gray-800 mb-6">
+            <h1 className="text-2xl md:text-3xl font-bold text-center text-gray-800">
               Order Vehicle Inspection
             </h1>
 
             {/* Vehicle Type Dropdown */}
-            <div className="mb-6">
-              <label
-                  htmlFor="vehicleType"
-                  className="block text-lg font-medium text-gray-700 mb-2"
-              >
+            <div>
+              <label htmlFor="vehicleType" className="block text-sm font-medium text-gray-700">
                 Select Vehicle Type:
               </label>
               <select
@@ -142,7 +138,7 @@ const VehicleForm = () => {
                     setVehicleType(e.target.value);
                     setVehiclePrice(vehiclePrices[e.target.value]);
                   }}
-                  className="block w-full p-3 border border-gray-300 rounded-md"
+                  className="w-full p-3 mt-1 border border-gray-300 rounded-md"
               >
                 {Object.keys(vehiclePrices).map((type) => (
                     <option key={type} value={type}>
@@ -152,11 +148,9 @@ const VehicleForm = () => {
               </select>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              <VehicleYearSelect
-                  vehicleYear={vehicleYear}
-                  setVehicleYear={setVehicleYear}
-              />
+            {/* Vehicle Details */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <VehicleYearSelect vehicleYear={vehicleYear} setVehicleYear={setVehicleYear} />
               <VehicleMakeSelect
                   selectedMake={selectedMake}
                   setSelectedMake={setSelectedMake}
@@ -182,24 +176,22 @@ const VehicleForm = () => {
 
             <AddonsSelect addons={addons} setAddons={setAddons} />
 
-            <div className="text-center mt-8">
+            <div className="text-center">
               <button
                   type="submit"
-                  className="w-full px-8 py-4 bg-gradient-to-r from-yellow-400 to-yellow-600 text-black font-semibold rounded-lg shadow-lg hover:from-yellow-500 hover:to-yellow-700 transition transform hover:scale-105 duration-300 ease-out"
+                  className="w-full px-6 py-3 bg-yellow-500 text-black font-medium rounded-lg shadow hover:bg-yellow-600 transition duration-300"
               >
                 Add to Cart
               </button>
             </div>
           </form>
-
-          {/* Render the Terms and Conditions modal */}
-          {showTerms && (
-              <TermsAndConditionsModal
-                  onAccept={handleAcceptTerms}
-                  onCancel={() => setShowTerms(false)}
-              />
-          )}
         </div>
+        {showTerms && (
+            <TermsAndConditionsModal
+                onAccept={handleAcceptTerms}
+                onCancel={() => setShowTerms(false)}
+            />
+        )}
       </div>
   );
 };
