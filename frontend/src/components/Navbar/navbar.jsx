@@ -21,7 +21,7 @@ const Navbar = () => {
   };
 
   return (
-      <nav className="bg-gray-800 p-4 shadow-lg sticky top-0 z-50">
+      <nav className="bg-gray-900 p-4 shadow-lg sticky top-0 z-50">
         <div className="container mx-auto flex justify-between items-center">
           {/* Logo with Image */}
           <div className="flex items-center space-x-2">
@@ -87,10 +87,19 @@ const Navbar = () => {
                 Admin
               </button>
             </li>
+            {/* Mobile "Cart" text */}
+            <li className="lg:hidden mb-4 lg:mb-0">
+              <button
+                  className="text-white hover:text-yellow-500 transition duration-300"
+                  onClick={toggleCart}
+              >
+                Cart
+              </button>
+            </li>
           </ul>
 
-          {/* Cart Icon */}
-          <div className="relative flex items-center">
+          {/* Cart Icon for Larger Screens */}
+          <div className="hidden lg:flex relative items-center">
             <button
                 onClick={toggleCart}
                 className="relative flex items-center justify-center w-10 h-10 bg-yellow-500 rounded-full text-gray-900 hover:bg-yellow-600 transition duration-300 focus:outline-none"
