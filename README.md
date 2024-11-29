@@ -103,4 +103,4 @@
 ## 📢 Acknowledgments
 ### Developed by: Muhammad Hamza
 ### Hosted on: Vercel
-### Special Thanks: To my amazing team members for their invaluable contributions in starting and shaping this project.
+### Special Thanks: To my amazing team members Rayan Imran & Hassan Nauman for their invaluable contributions in starting and shaping this project.
